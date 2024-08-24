@@ -1,14 +1,14 @@
 import { Injectable, NgZone } from "@angular/core";
 
-import { JSONService } from "./json-service";
+import { ItemService } from "./item-service";
 
 @Injectable()
 export class AppFlowService  {
     private applicationLoaded: boolean;
     
-    private jsonService : JSONService;
+    private jsonService : ItemService;
 
-    constructor(_jsonService: JSONService) {
+    constructor(_jsonService: ItemService) {
         this.applicationLoaded = false;
 
         this.jsonService = _jsonService;
@@ -18,8 +18,7 @@ export class AppFlowService  {
         if(this.applicationLoaded)
             return;
 
-        var items = this.jsonService.LoadItems();
-        if(items == undefined)
+        if(!this.jsonService.Intialise())
         {
             //error page and pass the error
             return;

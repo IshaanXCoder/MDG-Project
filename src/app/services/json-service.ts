@@ -1,69 +1,56 @@
-import { promises } from "fs";
+import { Directory, FileInfo, Filesystem } from "@capacitor/filesystem";
 
 import { Injectable } from "@angular/core";
 
 import { FoodItem } from "../Item/item";
+import { Initilaisiable } from "../initialisable";
 
 @Injectable()
-export class JSONService {
+export class JSONService extends Initilaisiable {
     private readonly filePath: string = 'something lmao';
 
     private items: FoodItem[] | undefined = undefined;
 
     constructor() {
-
+        super();
+        this.initialise();
     }
 
-    public LoadItems() : FoodItem[] | undefined {
-        try {
-            this.items = JSON.parse(this.filePath);
-            return this.items;
-        }
-        catch {
-            return undefined;
-        }   
+    public async loadItems(onFileReadCallback: (name: string, value: string) => void) : Promise<void> {
+        await Filesystem.readdir({
+            path: '',
+            directory: Directory.Data
+          }).then(async result => {
+            const loaded: FileInfo[] = result.files;
+      
+            for(var i: number = 0; i < loaded.length; i++) {
+              let current = loaded[i];
+
+              onFileReadCallback(current.name, atob((await Filesystem.readFile({
+                path: current.uri
+              })).data as string));
+            }
+        });
     }
 
-    public AddItem(item: FoodItem): boolean {
-        try {
-            if(this.items == undefined)
-                return false;
-
-            this.items.push(item)
-            let json: string = JSON.stringify(this.items);
-
-            promises.writeFile(this.filePath, json, {
-                    flag: "w"
-                }).then(() => { });
-            return true;
-        }
-        catch {
-            return false;
-        }
-    }
-
-    public RemoveItem(item: FoodItem) : boolean {
-        try {
-            if(this.items == undefined)
-                return false;
-
-            for(let i: number = 0; i < this.items.length; i++)
-                if(this.items[i].Name() == item.Name())
-                {
-                    this.items = this.items.slice(i);
-                    let json: string = JSON.stringify(this.items);
-        
-                    promises.writeFile(this.filePath, json, {
-                            flag: "w"
-                        }).then(() => { });
-                    
-                    break;
-                }
-
-            return true;
-        }
-        catch {
-           return false;
-        }
+    protected async addItem(name: string, foodItem: FoodItem) : Promise<boolean> {
+        const json = JSON.stringify(foodItem);
+    
+        await Filesystem.writeFile({
+          path: name,
+          directory: Directory.Data,
+          data: btoa(json),
+        });
+    
+        return true;
+    }   
+    
+    protected async deleteItem(name: string) : Promise<boolean> {
+        await Filesystem.deleteFile({
+          path: name,
+          directory: Directory.Data
+        });
+    
+        return true;
     }
 }

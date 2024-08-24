@@ -3,46 +3,43 @@ import { Injectable } from "@angular/core";
 import { FoodItem } from "../Item/item";
 import { JSONService } from "./json-service";
 import { FoodType } from "../enums/food-type";
+import { Initilaisiable } from "../initialisable";
 
 @Injectable()
-export class ItemService {
+export class ItemService extends Initilaisiable {
     private readonly jsonService: JSONService
 
-    private foodItems : FoodItem[] | undefined = undefined;
-
+    private foodItems: { [Name: string]: FoodItem | undefined } = {};
+    
+    private length: number;
+    Length() : number {
+      return this.length;
+    }
+  
     constructor(_jsonService: JSONService) {
+        super();
         this.jsonService = _jsonService;
+
+        this.length = 0;
     }
 
-    public Intialise() : boolean {
-        if(this.foodItems != undefined)
-            return false;
-        
-        this.foodItems = this.jsonService.LoadItems();
-        return this.foodItems != undefined;
+    public async loadItems() : Promise<void> {
+        if(!this.IsInitialised) {
+            return;
+        }
+
+        await this.jsonService.loadItems((name: string, value: string) => {
+            var item: FoodItem = JSON.parse(value);
+            this.foodItems[name] = item;
+            this.length++;
+        });
+        this.initialise();
     }
 
-    public GetItem(name: string) : FoodItem | undefined{
-        if(this.foodItems == null)
+    public getItem(name: string) : FoodItem | undefined{
+        if(!this.IsInitialised())
             return undefined;
 
-        for(let i: number = 0; i < this.foodItems?.length; i++)
-            if(this.foodItems[i].Name() == name)
-                return this.foodItems[i];
-
-        return undefined;
-    }
-
-    public AddItem(name: string, cost: number, isVeg: boolean, foodType: FoodType) : boolean {
-        if(this.foodItems == null)
-            return false;
-        
-        if(this.GetItem(name) != undefined)
-            return false;
-
-        let newItem: FoodItem = new FoodItem(name, cost, isVeg, foodType);
-        
-        this.foodItems?.push(newItem);
-        return this.jsonService.AddItem(newItem);
+        return this.foodItems[name];
     }
 }

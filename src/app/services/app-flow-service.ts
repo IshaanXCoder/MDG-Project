@@ -1,30 +1,29 @@
 import { Injectable, NgZone } from "@angular/core";
 
 import { ItemService } from "./item-service";
+import { Initilaisiable } from "../initialisable";
 
 @Injectable()
-export class AppFlowService  {
+export class AppFlowService extends Initilaisiable  {
     private applicationLoaded: boolean;
     
-    private jsonService : ItemService;
+    private itemService : ItemService;
 
-    constructor(_jsonService: ItemService) {
+    constructor(_itemService: ItemService) {
+        super();
+        this.initialise();
+
         this.applicationLoaded = false;
-
-        this.jsonService = _jsonService;
+        this.itemService = _itemService;
     }
 
     public loadApplication() {
         if(this.applicationLoaded)
             return;
 
-        if(!this.jsonService.Intialise())
-        {
-            //error page and pass the error
-            return;
-        }
-
-        this.applicationLoaded = true;
+        this.itemService.loadItems();
+        
+        this.applicationLoaded = this.itemService.IsInitialised();
     }
 }
 

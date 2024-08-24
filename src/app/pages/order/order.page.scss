@@ -1,0 +1,24 @@
+.popular-dishes {
+    padding: 10px;
+  }
+  
+  ion-card {
+    margin: 5px;
+    height: 200px; /* Increase height for bigger cards */
+  }
+  
+  ion-card img {
+    width: 100%;
+    height: 150px; /* Increase height for bigger images */
+    object-fit: cover;
+  }
+  
+  ion-card-title {
+    font-size: 16px; /* Adjust font size if needed */
+  }
+  
+  ion-col {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }

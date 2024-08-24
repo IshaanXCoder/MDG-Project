@@ -1,13 +1,101 @@
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar>
-    <ion-title>order</ion-title>
+    <ion-title>Order</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">order</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content>
+  <ion-segment value="all">
+    <ion-segment-button value="all">
+      <ion-label>All</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="pizza">
+      <ion-icon name="pizza-outline"></ion-icon>
+      <ion-label>Pizza</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="burger">
+      <ion-icon name="burger-outline"></ion-icon>
+      <ion-label>Burger</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="sushi">
+      <ion-icon name="fish-outline"></ion-icon>
+      <ion-label>Sushi</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="meat">
+      <ion-icon name="restaurant-outline"></ion-icon>
+      <ion-label>Meat</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="fruits">
+      <ion-icon name="nutrition-outline"></ion-icon>
+      <ion-label>Fruits</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="pasta">
+      <ion-icon name="cafe-outline"></ion-icon>
+      <ion-label>Pasta</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+
+  <div class="popular-dishes">
+    <h2>Popular Dishes</h2>
+    <ion-grid>
+      <ion-row>
+        <ion-col size="4">
+          <ion-card>
+            <img src="assets/imgs/caesar-salad.jpg" />
+            <ion-card-content>
+              <ion-card-title>Classic Caesar Salad</ion-card-title>
+              <p>Rating: 4.5 - Deep Cafe - Salad</p>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+        <ion-col size="4">
+          <ion-card>
+            <img src="assets/imgs/pizza-margherita.jpg" />
+            <ion-card-content>
+              <ion-card-title>Pizza Margherita</ion-card-title>
+              <p>Rating: 4.0 - Neapolitan - Pizza</p>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+        <ion-col size="4">
+          <ion-card>
+            <img src="assets/imgs/muesli-mango.jpg" />
+            <ion-card-content>
+              <ion-card-title>Muesli with Mango</ion-card-title>
+              <p>Rating: 5.0 - Veggies - Fruits</p>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="4">
+          <ion-card>
+            <img src="assets/imgs/avocado-egg-sandwich.jpg" />
+            <ion-card-content>
+              <ion-card-title>Avocado and Egg Sandwich</ion-card-title>
+              <p>Rating: 5.0 - Vegan Cafe - Sandwich</p>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+        <ion-col size="4">
+          <ion-card>
+            <img src="assets/imgs/avocado-pesto-pasta.jpg" />
+            <ion-card-content>
+              <ion-card-title>Avocado Pesto Pasta</ion-card-title>
+              <p>Rating: 5.0 - Cafeteria - Pasta</p>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+        <ion-col size="4">
+          <ion-card>
+            <img src="assets/imgs/burger-hamon.jpg" />
+            <ion-card-content>
+              <ion-card-title>Burger with Hamon</ion-card-title>
+              <p>Rating: 4.5 - Becher Club - Burger</p>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
 </ion-content>

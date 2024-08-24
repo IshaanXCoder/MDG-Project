@@ -1,0 +1,66 @@
+.buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    position: absolute;
+    top: 70%; 
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  
+  .btn {
+    padding: 10px 20px;
+    font-size: 1em;
+    color: #fff;
+    background: rgba(255, 255, 255, 0.05); 
+    border: none;
+    cursor: pointer;
+    border-radius: 50px;
+    backdrop-filter: blur(10px); /* Glassmorphic effect */
+    -webkit-backdrop-filter: blur(10px); 
+    border: 1px solid rgba(255, 255, 255, 0.2); 
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: background 0.3s ease;
+  }
+  
+  .btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+  }
+  .shimmer {
+    background: linear-gradient(100deg,
+      rgba(255, 255, 255, 0) 20%,
+      rgba(255, 255, 255, 0.5) 50%,
+      rgba(255, 255, 255, 0) 80%);
+    background-size: 200% 100%;
+    animation: shimmer 6s infinite linear;
+  }
+  
+  @keyframes shimmer {
+    0% {
+      background-position: -200% 0;
+    }
+    100% {
+      background-position: 200% 0;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .buttons {
+      font-size: 10px;
+      top: 80%; 
+    }
+  }
+  
+  @media (max-width: 400px) {
+    .buttons {
+      font-size: 10px;
+      top: 90%; 
+    }
+  }
+  @media (max-width: 992px) {
+    .buttons {
+      font-size: 10px;
+      top: 60%; 
+  }}
+  

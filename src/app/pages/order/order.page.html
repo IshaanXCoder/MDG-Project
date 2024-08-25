@@ -5,53 +5,68 @@
 </ion-header>
 
 <ion-content>
+  <!-- Segment for filtering dishes -->
   <ion-segment [(ngModel)]="selectedCategory" (ngModelChange)="filterDishes($event)" color="primary">
     <ion-segment-button value="all">
       <ion-label>All</ion-label>
     </ion-segment-button>
     <ion-segment-button value="soup">
-      <ion-icon name="pizza-outline"></ion-icon>
+
       <ion-label>Soup</ion-label>
     </ion-segment-button>
     <ion-segment-button value="fried">
-      <ion-icon name="ice-cream-outline"></ion-icon>
+
       <ion-label>Fried</ion-label>
     </ion-segment-button>
     <ion-segment-button value="bread">
-      <ion-icon name="ice-cream-outline"></ion-icon>
+
       <ion-label>Bread</ion-label>
     </ion-segment-button>
     <ion-segment-button value="paranthas">
-      <ion-icon name="wine-outline"></ion-icon>
-      <ion-label>Paranthas</ion-label>
+
+      <ion-label>Parathas</ion-label>
     </ion-segment-button>
     <ion-segment-button value="meal">
-      <ion-icon name="nutrition-outline"></ion-icon>
+
       <ion-label>Meals</ion-label>
     </ion-segment-button>
     <ion-segment-button value="continental">
-      <ion-icon name="nutrition-outline"></ion-icon>
+
       <ion-label>Continentals</ion-label>
     </ion-segment-button>
     <ion-segment-button value="shakes">
-      <ion-icon name="restaurant-outline"></ion-icon>
+
       <ion-label>Shakes</ion-label>
     </ion-segment-button>
     <ion-segment-button value="beverage">
-      <ion-icon name="restaurant-outline"></ion-icon>
+
       <ion-label>Hot Beverages</ion-label>
     </ion-segment-button>
   </ion-segment>
+
+  <!-- Search bar for filtering dishes -->
   <ion-searchbar [debounce]="1000" (ionInput)="handleInput($event)"></ion-searchbar>
-  <ion-button (click)="finaliseOrder()">finalise order</ion-button>
+  
+  <!-- Finalise Order Button -->
+  <ion-button expand="full" (click)="finaliseOrder()">Finalise Order</ion-button>
+  
+  <!-- Grid for displaying dishes -->
   <ion-grid>
     <ion-row>
       <ion-col size="6" size-md="4" size-lg="3" *ngFor="let dish of DisplayDishes()">
         <ion-card>
           <img [src]="dish.ImageSrc()" class="dish-image" />
-          <ion-card-title>{{dish.Name()}}</ion-card-title>
+          <ion-card-title>{{ dish.Name() }}</ion-card-title>
+
           <ion-card-content>
-            <p class="dish-category">{{ dish.FoodType() | titlecase }}</p>
+            <p class="dish-rate">₹{{ dish.Cost() }}</p>
+
+            <!-- Quantity Controls -->
+            <div class="quantity-controls">
+              <ion-button (click)="decrement(dish.Name())" fill="outline">-</ion-button>
+              <ion-label>{{ getCount(dish.Name())|| 0 }}</ion-label>
+              <ion-button (click)="increment(dish.Name())" fill="outline">+</ion-button>
+            </div>
           </ion-card-content>
         </ion-card>
       </ion-col>

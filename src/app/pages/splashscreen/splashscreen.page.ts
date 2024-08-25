@@ -19,6 +19,7 @@ export class SplashscreenPage extends AppPage<SplashScreenWidgetController> {
   constructor(_appFlowService: AppFlowService, _widgetController : SplashScreenWidgetController, _soundService: SoundService) { 
     super(_widgetController, _soundService);
     
+    
     this.appFlowService = _appFlowService;
   }
 
@@ -28,6 +29,7 @@ export class SplashscreenPage extends AppPage<SplashScreenWidgetController> {
   async afterViewInit(): Promise<void> { }
 
   protected override async viewDidEnter(): Promise<void> {
+    console.log('hello');
     /*const element = this.splash.nativeElement;
     if(element != undefined) {
       await this.animationController.toggleLogoAnimation(this.splash.nativeElement, async() => {
@@ -38,6 +40,7 @@ export class SplashscreenPage extends AppPage<SplashScreenWidgetController> {
       console.log('ERROR: splahshcreen undefined; loading application anyway.');
       await this.appFlowService.loadApplication();
     }*/
+    
     
     await this.appFlowService.loadApplication(); 
   }

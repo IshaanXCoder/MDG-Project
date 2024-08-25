@@ -5,6 +5,10 @@
   --ion-toolbar-color: #fff;
 }
 
+ion-label {
+  color: black;
+}
+
 ion-header {
   --background: var(--ion-toolbar-background);
 }
@@ -16,28 +20,27 @@ ion-title {
 
 ion-segment {
   --background: #fff;
-
   --color: #333;
   padding: 10px 0;
 }
+
 ion-segment-button {
-  --color: #000; /* Black color for category text */
-  --color-checked: #000; /* Ensure it stays black when selected */
+  --color: #000;
+  --color-checked: #000;
 }
 
 ion-segment-button ion-icon {
-  color: #000; /* Black color for icons */
+  color: #000;
 }
 
 .category-segment ion-segment-button {
-  --color: #000; /* Black color for categories */
-
+  --color: #000;
   text-transform: uppercase;
   font-weight: 600;
 }
 
 .category-segment ion-segment-button ion-icon {
-  color: #000; /* Black icons for categories */
+  color: #000;
 }
 
 ion-card.dish-card {
@@ -60,17 +63,19 @@ ion-card img.dish-image {
 }
 
 ion-card-title {
-  font-size: 18px;
+  font-size: 20px;
+  padding-left: 10px;
   color: #007bff;
   font-weight: bold;
   margin: 8px 0;
 }
 
-.dish-category {
+.dish-rate {
   color: #777;
-  font-size: 14px;
-  text-align: center;
-  margin-top: 5px;
+  font-size: 18px;
+  text-align: left;
+  margin-top: -5px;
+  margin-left: 5px;
 }
 
 @media (max-width: 768px) {

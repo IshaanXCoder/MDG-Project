@@ -39,6 +39,10 @@ export class BillPage extends AppPage<BillWidgetController> {
     return this.appFlowService.getCart();
   }
 
+  public getCount(name: string) : number {
+    return this.appFlowService.getCount(name);
+  }
+
   public async increment(name: string | undefined) : Promise<void> {
     if(name == undefined) {
       this.widgetController.presentErrorAlert();
@@ -50,7 +54,7 @@ export class BillPage extends AppPage<BillWidgetController> {
       this.widgetController.presentErrorAlert();
     }
     else {
-      this.appFlowService.addToCart(item);
+      this.appFlowService.addToCart(name);
     }
   }
 
@@ -60,17 +64,11 @@ export class BillPage extends AppPage<BillWidgetController> {
       return;
     }
     
-    let item = this.itemService.getItem(name);
-    if(item == undefined) {
-      this.widgetController.presentErrorAlert();
+    if(this.appFlowService.getCount(name) == 0) {
+      await this.widgetController.presentNoDishToast();
     }
     else {
-      if(this.appFlowService.getCount(item) == 0) {
-        await this.widgetController.presentNoDishToast();
-      }
-      else {
-        this.appFlowService.removeFromCart(item);
-      }
+      this.appFlowService.removeFromCart(name);
     }
   }
 
@@ -80,15 +78,11 @@ export class BillPage extends AppPage<BillWidgetController> {
       return;
     }
     
-    let item = this.itemService.getItem(name);
-    if(item == undefined) {
-      this.widgetController.presentErrorAlert();
-    }
-    else if(this.appFlowService.getCount(item) == 0) {
+    if(this.appFlowService.getCount(name) == 0) {
       await this.widgetController.presentNoDishToast();
     }
     else {
-      this.appFlowService.removeAllFromCart(item);
+      this.appFlowService.removeFromCart(name);
     }
   }
 

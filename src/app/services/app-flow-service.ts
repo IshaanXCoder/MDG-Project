@@ -27,7 +27,7 @@ export class AppFlowService extends Initilaiziable  {
     this.ngZone = _ngZone;
     this.itemService = _itemService;
 
-    this.cart = new Cart();
+    this.cart = new Cart(this.itemService);
     this.currentPage = PageEnum.splashscreen;
   }
 
@@ -50,19 +50,19 @@ export class AppFlowService extends Initilaiziable  {
     return this.cart.getTotal();
   }
 
-  public getCount(item: FoodItem): number {
-    return this.cart.getCount(item);
+  public getCount(name: string): number {
+    return this.cart.getCount(name);
   }
 
-  public addToCart(item: FoodItem): void {
+  public addToCart(item: string): void {
     this.cart.addToCart(item);
   }
 
-  public removeFromCart(item: FoodItem): void {
+  public removeFromCart(item: string): void {
     this.cart.removeFromCart(item);
   }
 
-  public removeAllFromCart(item: FoodItem): void {
+  public removeAllFromCart(item: string): void {
     this.cart.removeAllFromCart(item);
   }
 

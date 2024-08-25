@@ -1,16 +1,18 @@
-import { FoodItem } from "./item";
-
 import { CartOrder } from "./card-order";
+import { ItemService } from "../services/item-management/item-service";
 
 export class Cart {
+
+  private readonly itemService : ItemService;
 
   private readonly orders: CartOrder[];
   public getOrders() : CartOrder[] {
     return this.orders
   }
 
-  constructor() {
+  constructor(itemService: ItemService) {
     this.orders = [];
+    this.itemService = itemService;
   }
 
   public getCode() : string {
@@ -25,42 +27,46 @@ export class Cart {
     this.orders.length = 0;
   }
 
-  public addToCart(item: FoodItem) : void {
-    let result = this.findInCart(item.Name());
+  public addToCart(item: string) : void {
+    let result = this.findInCart(item);
     if(result != undefined) {
       result.IncrementCount();
     }
     else {
-      this.orders.push(new CartOrder(item));
+      let result = this.itemService.getItem(item);
+
+      if(result != undefined) {
+        this.orders.push(new CartOrder(result));
+      }   
     }
   }
 
-  public removeFromCart(item: FoodItem) : void {
-    let result = this.findInCart(item.Name());
+  public removeFromCart(item: string) : void {
+    let result = this.findInCart(item);
     if(result != undefined) {
       result.DecrementCount();
       
       if(result.Count() == 0) {
-        this.removeInCart(item.Name());
+        this.removeInCart(item);
       }
     }
   }
 
-  public removeAllFromCart(item: FoodItem) : void {
+  public removeAllFromCart(item: string) : void {
     for(let i: number =0 ; i < this.orders.length; i++) {
-      if(this.orders[i].Name() == item.Name()) {
+      if(this.orders[i].Name() == item) {
         this.orders.splice(i, 1);
       }
     }
   }
 
-  public getCount(item: FoodItem) : number {
-    let result = this.findInCart(item.Name());
+  public getCount(item: string) : number {
+    let result = this.findInCart(item);
     if(result != undefined) {
       return result.Count();
     }
     else {
-      return -1;
+      return 0;
     }
   }
 

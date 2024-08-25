@@ -59,6 +59,10 @@ export class OrderPage extends AppPage<OrderWidgetController> {
 
   protected override async viewDidEnter() : Promise<void> { }
 
+  public getCount() {
+    
+  }
+
   public async filterDishes(category: string | undefined) : Promise<void> {
     let key = FilterFoodType[category as keyof typeof FilterFoodType];
 
@@ -88,13 +92,7 @@ export class OrderPage extends AppPage<OrderWidgetController> {
       return;
     }
     
-    let item = this.itemService.getItem(name);
-    if(item == undefined) {
-      this.widgetController.presentErrorAlert();
-    }
-    else {
-      this.appFlowService.addToCart(item);
-    }
+    this.appFlowService.addToCart(name);
   }
 
   public async decrement(name: string | undefined) : Promise<void> {
@@ -103,17 +101,11 @@ export class OrderPage extends AppPage<OrderWidgetController> {
       return;
     }
     
-    let item = this.itemService.getItem(name);
-    if(item == undefined) {
-      this.widgetController.presentErrorAlert();
+    if(this.appFlowService.getCount(name) == 0) {
+      await this.widgetController.presentNoDishToast();
     }
     else {
-      if(this.appFlowService.getCount(item) == 0) {
-        await this.widgetController.presentNoDishToast();
-      }
-      else {
-        this.appFlowService.removeFromCart(item);
-      }
+      this.appFlowService.removeFromCart(name);
     }
   }
 
@@ -123,15 +115,11 @@ export class OrderPage extends AppPage<OrderWidgetController> {
       return;
     }
     
-    let item = this.itemService.getItem(name);
-    if(item == undefined) {
-      this.widgetController.presentErrorAlert();
-    }
-    else if(this.appFlowService.getCount(item) == 0) {
+    if(this.appFlowService.getCount(name) == 0) {
       await this.widgetController.presentNoDishToast();
     }
     else {
-      this.appFlowService.removeAllFromCart(item);
+      this.appFlowService.removeAllFromCart(name);
     }
   }
   

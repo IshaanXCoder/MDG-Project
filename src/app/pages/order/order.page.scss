@@ -11,80 +11,66 @@ ion-header {
 
 ion-title {
   color: var(--ion-toolbar-color);
+  font-weight: bold;
 }
 
 ion-segment {
   --background: #fff;
-  --color-checked: #007bff;
-  --color: #333;
-}
 
+  --color: #333;
+  padding: 10px 0;
+}
 ion-segment-button {
-  --color-checked: #007bff;
+  --color: #000; /* Black color for category text */
+  --color-checked: #000; /* Ensure it stays black when selected */
 }
 
 ion-segment-button ion-icon {
-  color: #007bff;
+  color: #000; /* Black color for icons */
 }
 
-ion-card {
-  margin: 5px;
-  height: 220px;
+.category-segment ion-segment-button {
+  --color: #000; /* Black color for categories */
+
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.category-segment ion-segment-button ion-icon {
+  color: #000; /* Black icons for categories */
+}
+
+ion-card.dish-card {
+  margin: 10px;
+  border-radius: 12px;
   --background: #fff;
-  --box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  --box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease;
 }
 
-ion-card img {
+ion-card.dish-card:hover {
+  transform: scale(1.05);
+}
+
+ion-card img.dish-image {
   width: 100%;
   height: 150px;
+  border-radius: 12px 12px 0 0;
   object-fit: cover;
 }
 
 ion-card-title {
-  font-size: 16px;
+  font-size: 18px;
   color: #007bff;
+  font-weight: bold;
+  margin: 8px 0;
 }
 
-ion-col {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.popular-dishes {
-  padding: 10px;
-  background-color: #fff;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-h2 {
-  color: #007bff;
-  font-size: 20px;
-  margin-bottom: 10px;
-}
-
-.dish-controls {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: 10px;
-}
-
-.quantity-btn {
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  font-size: 20px;
-  margin: 0 5px;
-}
-
-.quantity-number {
-  font-size: 16px;
-  margin: 0 10px;
+.dish-category {
+  color: #777;
+  font-size: 14px;
+  text-align: center;
+  margin-top: 5px;
 }
 
 @media (max-width: 768px) {

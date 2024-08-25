@@ -2,7 +2,7 @@
   <ion-toolbar color="light">
     <ion-title>My Cart</ion-title>
     <ion-buttons slot="end">
-      <ion-button size="small" fill="outline" routerLink="/shopping" class="back-shopping-btn">
+      <ion-button size="small" fill="outline" (click)="editOrder()" class="back-shopping-btn">
         Back to Shopping
       </ion-button>
     </ion-buttons>
@@ -14,25 +14,25 @@
     <ion-row justify-content-center>
       <ion-col size="12" size-md="8" size-lg="7" class="cart-content">
         <ion-list>
-          <ion-item *ngFor="let item of cartItems" lines="none" class="cart-item">
+          <ion-item *ngFor="let item of Cart()" lines="none" class="cart-item">
             <ion-thumbnail slot="start" class="cart-thumbnail">
-              <img [src]="item.image" />
+              <img [src]="item.Item().ImageSrc()" />
             </ion-thumbnail>
             <ion-label>
-              <h3>{{ item.name }}</h3>
-              <p>Price: {{ item.price | currency }}</p>
-              <p>Total: {{ item.totalPrice | currency }}</p>
+              <h3>{{ item.Name() }}</h3>
+              <p>Price: {{ item.Item().Cost() | currency }}</p>
+              <p>Total: {{ item.TotalCost() | currency }}</p>
             </ion-label>
             <ion-buttons slot="end">
-              <ion-button color="medium" (click)="decrement(item)" shape="round">
+              <ion-button color="medium" (click)="decrement(item.Name())" shape="round">
                 <ion-icon name="remove-outline"></ion-icon>
               </ion-button>
-              <ion-label>{{ item.quantity }}</ion-label>
-              <ion-button color="medium" (click)="increment(item)" shape="round">
+              <ion-label>{{ item.Count() }}</ion-label>
+              <ion-button color="medium" (click)="increment(item.Name())" shape="round">
                 <ion-icon name="add-outline"></ion-icon>
               </ion-button>
             </ion-buttons>
-            <ion-button color="danger" fill="clear" (click)="removeItem(item)">
+            <ion-button color="danger" fill="clear" (click)="removeItem(item.Name())">
               <ion-icon name="close-outline"></ion-icon>
             </ion-button>
           </ion-item>

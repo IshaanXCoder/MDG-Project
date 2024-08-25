@@ -25,11 +25,11 @@
       <ion-icon name="wine-outline"></ion-icon>
       <ion-label>Paranthas</ion-label>
     </ion-segment-button>
-    <ion-segment-button value="indian">
+    <ion-segment-button value="meal">
       <ion-icon name="nutrition-outline"></ion-icon>
-      <ion-label>Indian Meals</ion-label>
+      <ion-label>Meals</ion-label>
     </ion-segment-button>
-    <ion-segment-button value="continentals">
+    <ion-segment-button value="continental">
       <ion-icon name="nutrition-outline"></ion-icon>
       <ion-label>Continentals</ion-label>
     </ion-segment-button>
@@ -37,20 +37,21 @@
       <ion-icon name="restaurant-outline"></ion-icon>
       <ion-label>Shakes</ion-label>
     </ion-segment-button>
-    <ion-segment-button value="beverages">
+    <ion-segment-button value="beverage">
       <ion-icon name="restaurant-outline"></ion-icon>
       <ion-label>Hot Beverages</ion-label>
     </ion-segment-button>
   </ion-segment>
-
+  <ion-searchbar [debounce]="1000" (ionInput)="handleInput($event)"></ion-searchbar>
+  <ion-button (click)="finaliseOrder()">finalise order</ion-button>
   <ion-grid>
     <ion-row>
-      <ion-col size="6" size-md="4" size-lg="3" *ngFor="let dish of filteredDishes">
+      <ion-col size="6" size-md="4" size-lg="3" *ngFor="let dish of DisplayDishes()">
         <ion-card>
           <img [src]="dish.ImageSrc()" class="dish-image" />
+          <ion-card-title>{{dish.Name()}}</ion-card-title>
           <ion-card-content>
-            <ion-card-title>{{ dish.Name() }}</ion-card-title>
-            <p class="dish-category">{{ dish.FoodType_Str() | titlecase }}</p>
+            <p class="dish-category">{{ dish.FoodType() | titlecase }}</p>
           </ion-card-content>
         </ion-card>
       </ion-col>

@@ -9,13 +9,17 @@ export class CartOrder implements INameable {
     }
   
     private readonly item: FoodItem;
-    public Itemn() : FoodItem {
+    public Item() : FoodItem {
       return this.item;
     }
   
     private count: number;
     public Count(): number {
       return this.count;
+    }
+
+    public TotalCost(): number {
+      return this.item.Cost() * this.count;
     }
   
     constructor(_foodItem: FoodItem) {

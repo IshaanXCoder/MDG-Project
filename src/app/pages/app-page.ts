@@ -21,6 +21,8 @@ export abstract class AppPage<widgets extends CustomWidgetController> implements
     protected abstract onInit() : void;
   
     ionViewWillEnter() : void {
+      this.widgetController.initialiseController();
+      
       this.viewWillEnter();
     }
     protected abstract viewWillEnter() : void;

@@ -1,6 +1,6 @@
-import { Initilaisiable } from "../initilizable";
+import { Initilaiziable } from "../initializable";
 
-export abstract class UtilityComponent<type extends UtilityComponent<type>> extends Initilaisiable {
+export abstract class UtilityComponent<type extends UtilityComponent<type>> extends Initilaiziable {
   protected readonly element!: HTMLInputElement;
 
   constructor(element: Element) {

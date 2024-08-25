@@ -1,45 +1,103 @@
 import { Component } from '@angular/core';
+import { AppPage } from '../app-page';
+
+import { BillWidgetController } from './widgets/bill-widget-controller';
+import { AppFlowService } from 'src/app/services/app-flow-service';
+import { SoundService } from 'src/app/services/sound/sound-affect-service';
+import { CartOrder } from '../order/services/card-order';
+import { ItemService } from 'src/app/services/item-management/item-service';
 
 @Component({
   selector: 'app-cart',
   templateUrl: './bill.page.html',
   styleUrls: ['./bill.page.scss'],
+  providers: [BillWidgetController]
 })
-export class BillPage {
+export class BillPage extends AppPage<BillWidgetController> {
 
-  // Cart items with name, price, image, and quantity
-  cartItems = [
-    { name: 'Watermelon', price: 2, image: 'assets/images/watermelon.png', quantity: 2, totalPrice: 4 },
-    { name: 'Tomato', price: 2, image: 'assets/images/tomato.png', quantity: 2, totalPrice: 4 },
-    { name: 'Cucumber', price: 2, image: 'assets/images/cucumber.png', quantity: 2, totalPrice: 4 },
-    { name: 'Spinach', price: 2, image: 'assets/images/spinach.png', quantity: 2, totalPrice: 4 },
-    { name: 'Macadamia', price: 2, image: 'assets/images/macadamia.png', quantity: 2, totalPrice: 4 }
-  ];
+  private readonly itemService: ItemService;
+  private readonly appFlowService: AppFlowService;
 
-  // Decrease quantity and update item total price and cart total
-  decrement(item: { name: string, price: number, image: string, quantity: number, totalPrice: number }): void {
-    if (item.quantity > 0) {
-      item.quantity--;
-      item.totalPrice = item.quantity * item.price;
+  private cart: CartOrder[] = [];
+  public Cart() : CartOrder[] {
+    return this.cart;
+  }
+  
+  constructor(_appFlowService: AppFlowService, _itemService: ItemService, _widgetController: BillWidgetController, _soundService: SoundService) {
+    super(_widgetController, _soundService)
+
+    this.itemService = _itemService;
+    this.appFlowService = _appFlowService;
+  }
+
+  protected override onInit(): void { }
+  protected override viewWillEnter(): void {  }
+  protected override async viewDidEnter(): Promise<void> { }
+  protected override viewDidLeave(): void { }
+
+  public getTotal() : number {
+    return this.cart.reduce((total, item) => total + item.Item().Cost(), 0);
+  }
+
+  public async increment(name: string | undefined) : Promise<void> {
+    if(name == undefined) {
+      this.widgetController.presentErrorAlert();
+      return;
+    }
+    
+    let cartOrder = this.findOrderedDish(name);
+    if(cartOrder == undefined) {
+      this.widgetController.presentErrorAlert();
+    }
+    else {
+      cartOrder.IncrementCount();
     }
   }
 
-  // Increase quantity and update item total price and cart total
-  increment(item: { name: string, price: number, image: string, quantity: number, totalPrice: number }): void {
-    item.quantity++;
-    item.totalPrice = item.quantity * item.price;
-  }
-
-  // Remove an item from the cart
-  removeItem(item: { name: string, price: number, image: string, quantity: number, totalPrice: number }): void {
-    const index = this.cartItems.indexOf(item);
-    if (index > -1) {
-      this.cartItems.splice(index, 1);
+  public async decrement(name: string | undefined) : Promise<void> {
+    if(name == undefined) {
+      this.widgetController.presentErrorAlert();
+      return;
+    }
+    
+    let cartOrder = this.findOrderedDish(name);
+    if(cartOrder == undefined) {
+      await this.widgetController.presentNoDishToast();
+    }
+    else {
+      cartOrder.DecrementCount();
+      if(cartOrder.Count() == 0) {
+        this.cart.splice(this.cart.indexOf(cartOrder, 0), 1);
+      }
     }
   }
 
-  // Calculate total price of all items in the cart
-  getTotal(): number {
-    return this.cartItems.reduce((total, item) => total + item.totalPrice, 0);
+  public async removeItem(name: string | undefined): Promise<void> {
+    for(let i: number = 0; i < this.cart.length; i++) {
+      if(this.cart[i].Name() == name) {
+        this.cart.splice(i, 1);
+        break;
+      } 
+    }
+
+    await this.widgetController.presentNoDishToast();
   }
+
+  public async editOrder() : Promise<void> {
+    await this.appFlowService.editOrder(this.cart);
+  }
+
+  public async completeOrder() : Promise<void> {
+    await this.appFlowService.completeOrder(this.cart);
+  }
+
+  private findOrderedDish(name: string) : CartOrder | undefined {
+    for(let i: number = 0; i < this.cart.length; i++) {
+      if(this.cart[i].Name() == name) {
+        return this.cart[i];
+      }
+    }
+
+    return undefined;
+  }  
 }

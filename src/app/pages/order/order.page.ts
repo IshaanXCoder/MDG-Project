@@ -14,9 +14,9 @@ import { CartOrder } from './services/card-order';
 enum FilterFoodType {
   all = 'all',
   soup = FoodType.soup,
+  meal = FoodType.meal,
   fried = FoodType.fried,
   bread = FoodType.bread,
-  indian = FoodType.indian,
   shakes = FoodType.shakes,
   beverage = FoodType.beverage,
   paranthas = FoodType.paranthas,
@@ -35,9 +35,20 @@ export class OrderPage extends AppPage<OrderWidgetController> {
   private readonly appFlowService: AppFlowService;
 
   private cart: CartOrder[] = [];
+  public Cart() : CartOrder[] {
+    return this.cart;
+  }
+
+  public S: string = "hello lalala";
   
-  public filteredDishes: FoodItem[] = []; 
-  public selectedCategory: FilterFoodType = FilterFoodType.all;
+  private filteredDishes: FoodItem[] = []; 
+
+  private displayDishes: FoodItem[] = []; 
+  public DisplayDishes() : FoodItem[] {
+    return this.displayDishes;
+  }
+
+  public selectedCategory: FilterFoodType = FilterFoodType.meal;
 
   constructor(_appFlowService: AppFlowService, _itemService: ItemService, _widgetController: OrderWidgetController, _soundService: SoundService) {
     super(_widgetController, _soundService);
@@ -60,6 +71,7 @@ export class OrderPage extends AppPage<OrderWidgetController> {
   public async filterDishes(category: string | undefined) : Promise<void> {
     let key = FilterFoodType[category as keyof typeof FilterFoodType];
 
+    this.displayDishes = [];
     this.filteredDishes = [];
     let allItems : { [Name: string]: FoodItem } | undefined;
 
@@ -79,14 +91,12 @@ export class OrderPage extends AppPage<OrderWidgetController> {
 
     var values = Object.values(allItems);
     for(let i: number = 0; i < values.length; i++) {
+      this.displayDishes.push(values[i]);
       this.filteredDishes.push(values[i]);
-    }
-    for(let i: number = 0; i < values.length; i++) {
-      this.filteredDishes[i];
     }
   }
 
-  public async incrementDish(name: string | undefined) : Promise<void> {
+  public async increment(name: string | undefined) : Promise<void> {
     if(name == undefined) {
       this.widgetController.presentErrorAlert();
       return;
@@ -109,7 +119,7 @@ export class OrderPage extends AppPage<OrderWidgetController> {
     }
   }
 
-  public async decrementDish(name: string | undefined) : Promise<void> {
+  public async decrement(name: string | undefined) : Promise<void> {
     if(name == undefined) {
       this.widgetController.presentErrorAlert();
       return;
@@ -122,15 +132,18 @@ export class OrderPage extends AppPage<OrderWidgetController> {
     else {
       cartOrder.DecrementCount();
       if(cartOrder.Count() == 0) {
-        const index = this.cart.indexOf(cartOrder, 0);
-        if (index > -1) {
-          this.cart.splice(index, 1);
-        }
+        this.cart.splice(this.cart.indexOf(cartOrder, 0), 1);
       }
     }
   }
+  
+  public handleInput(event: any) : void {
+    const query = event.target.value.toLowerCase();
+    this.displayDishes = this.filteredDishes.filter((d) => d.Name().toLowerCase().indexOf(query) > -1);
+  }
 
   public async finaliseOrder() : Promise<void> {
+    
     await this.appFlowService.finaliseOrder(this.cart);
   }
 

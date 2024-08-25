@@ -40,6 +40,10 @@ export class AppFlowService extends Initilaiziable  {
     this.navigate(PageEnum.order);
   }
 
+  public generateCode() : string {
+    return this.currentOrder.length + "" + this.currentOrder.reduce((total, item) => total + item.Item().Cost(), 0);
+  }
+
   public async newOrder() : Promise<void> {
     this.clearCurrentOrder();
 
@@ -51,6 +55,7 @@ export class AppFlowService extends Initilaiziable  {
       return;
     }
 
+    console.log('hi');
     this.changeCurrentOrder(order);
     await this.navigate(PageEnum.bill);
   }
@@ -64,7 +69,12 @@ export class AppFlowService extends Initilaiziable  {
     await this.navigate(PageEnum.order);
   }
 
-  public async completeOrder() : Promise<void> {
+  public async completeOrder(order: CartOrder[]) : Promise<void> {
+    if(this.currentPage != PageEnum.bill) {
+      return;
+    }
+    
+    this.changeCurrentOrder(order);
     await this.navigate(PageEnum.thank_you);
   }
 

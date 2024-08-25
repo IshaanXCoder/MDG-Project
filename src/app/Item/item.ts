@@ -28,9 +28,6 @@ export class FoodItem implements INameable
     public FoodType(): FoodType {
         return this.foodType;
     }
-    public FoodType_Str(): string {
-        return this.foodType.toString();
-    }
 
     constructor(_name: string, _cost: number, _isVeg: boolean, _imgSrc: string, _foodType: FoodType)
     {

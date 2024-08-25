@@ -1,8 +1,8 @@
 export enum FoodType {
   soup = 'soup',
+  meal = 'meal',
   fried = 'fried',
   bread = 'bread',
-  indian = 'indian',
   shakes = 'shakes',
   beverage = 'beverage',
   paranthas = 'paranthas',

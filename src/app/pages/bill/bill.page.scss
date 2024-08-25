@@ -1,30 +1,103 @@
-.cart-title {
-  text-align: center;
-  font-size: 26px;
-  margin-top: 20px;
+/* General Styles */
+ion-header {
+  --background: #FFF;
+  --color: #333;
+}
+
+ion-toolbar {
+  --background: #FF9800;
+  color: #fff;
+}
+
+ion-title {
+  font-size: 22px;
   font-weight: bold;
 }
 
+ion-content {
+  background: #e5e5e5;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Center content horizontally */
+.cart-content {
+  padding: 16px;
+  margin: 0 auto; /* Center the content horizontally */
+  max-width: 600px; /* Reduced width of the container */
+  flex: 1; /* Allow content to grow and take available space */
+}
+
+/* Fix the Checkout button at the bottom */
+.subtotal {
+  margin-top: auto; /* Push the subtotal to the bottom */
+  padding: 16px;
+  background-color: #FFF;
+  box-shadow: 0px -4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  position: sticky; /* Keep the subtotal at the bottom */
+  bottom: 0; /* Stick to the bottom */
+  display: flex;
+  justify-content: center; /* Center the button horizontally */
+}
+
+/* Cart Item Styles */
 ion-item {
   --background: linear-gradient(to right, rgba(255, 255, 255, 0.9), rgba(240, 240, 240, 0.8)), url('/assets/cart-bg.png');
   padding: 16px;
   margin-bottom: 16px;
-  border-radius: 16px;
+  border-radius: 12px;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
 }
 
+/* Reduce the width of item containers */
+ion-item {
+  --padding-start: 0; /* Remove padding on start */
+  --padding-end: 0; /* Remove padding on end */
+  --padding-top: 8px; /* Reduce padding on top */
+  --padding-bottom: 8px; /* Reduce padding on bottom */
+}
+
+/* Thumbnail Styles */
 .cart-thumbnail {
-  --border-radius: 12px;
+  --border-radius: 8px;
+  margin-right: 16px;
 }
 
+ion-label h3 {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+ion-label p {
+  margin: 4px 0;
+}
+
+/* Button Styles */
 ion-button {
   box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  font-weight: bold;
 }
 
-.subtotal {
-  margin-top: 24px;
+.back-shopping-btn {
+  background-color: #FF9800;
+  color: #fff;
 }
 
-.text-end {
-  text-align: right;
+.checkout-btn {
+  background-color: #FF6F6F; /* Updated color for visibility */
+  color: #fff;
+  width: 100%; /* Ensure button takes full width of its container */
+}
+
+ion-button[color="medium"] {
+  background-color: #FF9800;
+  color: #fff;
+}
+
+ion-button[color="danger"] {
+  color: #FF6F6F;
 }

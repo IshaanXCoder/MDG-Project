@@ -56,17 +56,28 @@
       <ion-col size="6" size-md="4" size-lg="3" *ngFor="let dish of DisplayDishes()">
         <ion-card>
           <img [src]="dish.ImageSrc()" class="dish-image" />
-          <ion-card-title>{{ dish.Name() }}</ion-card-title>
-
           <ion-card-content>
+            <ion-grid>
+              <ion-row>
+                <ion-col size="auto" hi>
+                  <ion-card-title>{{ dish.Name() }}</ion-card-title>
+                  
+                </ion-col>
+                <ion-col size="5" hi>
+                  <div class="quantity-controls">
+                    <ion-button (click)="decrement(dish.Name())" fill="outline">-</ion-button>
+                    <ion-label class="myLabl">{{ getCount(dish.Name())|| 0 }}</ion-label>
+                    <ion-button (click)="increment(dish.Name())" fill="outline">+</ion-button>
+                  </div>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+           
+
             <p class="dish-rate">₹{{ dish.Cost() }}</p>
 
             <!-- Quantity Controls -->
-            <div class="quantity-controls">
-              <ion-button (click)="decrement(dish.Name())" fill="outline">-</ion-button>
-              <ion-label>{{ getCount(dish.Name())|| 0 }}</ion-label>
-              <ion-button (click)="increment(dish.Name())" fill="outline">+</ion-button>
-            </div>
+            
           </ion-card-content>
         </ion-card>
       </ion-col>

@@ -59,8 +59,8 @@ export class OrderPage extends AppPage<OrderWidgetController> {
 
   protected override async viewDidEnter() : Promise<void> { }
 
-  public getCount() {
-    
+  public getCount(name: string) : number {
+    return this.appFlowService.getCount(name);
   }
 
   public async filterDishes(category: string | undefined) : Promise<void> {

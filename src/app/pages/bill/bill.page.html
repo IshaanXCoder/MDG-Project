@@ -20,8 +20,8 @@
             </ion-thumbnail>
             <ion-label>
               <h3>{{ item.Name() }}</h3>
-              <p>Price: {{ item.Item().Cost() | currency }}</p>
-              <p>Total: {{ item.TotalCost() | currency }}</p>
+              <p>Price: ₹{{ item.Item().Cost() }}</p>
+              <p>Total: ₹{{ item.TotalCost() }}</p>
             </ion-label>
             <ion-buttons slot="end">
               <ion-button color="medium" (click)="decrement(item.Name())" shape="round">
@@ -42,8 +42,8 @@
 
     <ion-row justify-content-center class="subtotal">
       <ion-col size="12" size-md="8" size-lg="7" class="text-end">
-        <ion-button expand="full" color="primary" class="checkout-btn">
-          Checkout ({{ getTotal() | currency }})
+        <ion-button expand="full" color="primary" class="checkout-btn myBTN">
+          Checkout  ₹({{ getTotal()}})
         </ion-button>
       </ion-col>
     </ion-row>

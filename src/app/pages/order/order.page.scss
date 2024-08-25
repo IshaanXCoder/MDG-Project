@@ -62,12 +62,20 @@ ion-card img.dish-image {
   object-fit: cover;
 }
 
+ion-col #hi {
+  background-color: #c54c40
+}
+
 ion-card-title {
-  font-size: 20px;
-  padding-left: 10px;
-  color: #007bff;
+  font-size: 30px;
+  padding-left: 5px;
+  color: #E4DDDD;
   font-weight: bold;
   margin: 8px 0;
+}
+
+ion-card-content {
+  background-color: #c54c31
 }
 
 .dish-rate {
@@ -88,4 +96,10 @@ ion-card-title {
   ion-col {
     width: 33.33%;
   }
+}
+
+.myLabl{
+  padding: 10 px;
+
+  background: white;
 }

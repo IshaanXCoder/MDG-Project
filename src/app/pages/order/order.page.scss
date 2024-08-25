@@ -1,8 +1,23 @@
 :host {
   --ion-background-color: #f4f4f4;
   --ion-text-color: #333;
-  --ion-toolbar-background: #007bff;
+  --ion-toolbar-background: #340B02;
   --ion-toolbar-color: #fff;
+}
+
+.main-title {
+  display: grid;
+  align-items: center;
+  
+  font-weight: bolder;
+}
+
+.padding-left-5 {
+  padding-left: 5%;
+}
+
+.debug {
+  background-color: black;
 }
 
 ion-label {
@@ -18,29 +33,54 @@ ion-title {
   font-weight: bold;
 }
 
+.segment-background {
+  background-color: #781d09;;
+}
+
 ion-segment {
-  --background: #fff;
+  --background: #781d09;
   --color: #333;
   padding: 10px 0;
 }
 
-ion-segment-button {
-  --color: #000;
-  --color-checked: #000;
+.segment-button {
+  margin-left: 5px;
+  margin-right: 5px;
+
+  border-radius: 3px;
+
+  background-color: #c54c31;
 }
 
-ion-segment-button ion-icon {
-  color: #000;
+.segment-label {
+  color: white;
+  font-weight: bold;
 }
 
-.category-segment ion-segment-button {
-  --color: #000;
-  text-transform: uppercase;
-  font-weight: 600;
+.search-bar-container {
+  padding: 5px;
+
+  background-color: #781d09;
 }
 
-.category-segment ion-segment-button ion-icon {
-  color: #000;
+.search-bar {
+  color: gray;
+}
+
+.recording-title-container {
+  padding: 0;
+
+  width: 170px;
+  overflow-x: auto;
+  white-space: nowrap;
+  scrollbar-width: none;
+}
+
+.recording-title {
+  color: black;
+
+  font-size: 20px;
+  font-weight: bold;
 }
 
 ion-card.dish-card {
@@ -62,10 +102,6 @@ ion-card img.dish-image {
   object-fit: cover;
 }
 
-ion-col #hi {
-  background-color: #c54c40
-}
-
 ion-card-title {
   font-size: 30px;
   padding-left: 5px;
@@ -74,8 +110,22 @@ ion-card-title {
   margin: 8px 0;
 }
 
+.dot {
+  height: 25px;
+  width: 25px;
+  background-color: #bbb;
+  border-radius: 50%;
+  display: inline-block;
+}
+
 ion-card-content {
   background-color: #c54c31
+}
+
+ion-button[shape=circle] {
+  --border-radius: 50%;
+  width: 32px;
+  height: 32px;
 }
 
 .dish-rate {
@@ -102,4 +152,17 @@ ion-card-content {
   padding: 10 px;
 
   background: white;
+}
+
+.total-container {
+  margin-top: 3px;
+  
+  padding: 5px;
+  padding-left: 20px;
+  padding-right: 20px;
+  text-align: center;
+  
+  border-radius: 3px;
+
+  background-color: #c54c31;
 }

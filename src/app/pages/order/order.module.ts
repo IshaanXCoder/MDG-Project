@@ -4,6 +4,8 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome'
+
 import { OrderPageRoutingModule } from './order-routing.module';
 
 import { OrderPage } from './order.page';
@@ -13,6 +15,7 @@ import { OrderPage } from './order.page';
     CommonModule,
     FormsModule,
     IonicModule,
+    FontAwesomeModule,
     OrderPageRoutingModule
   ],
   declarations: [OrderPage]

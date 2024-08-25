@@ -1,67 +1,77 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Order</ion-title>
+    <ion-grid>
+      <ion-row>
+        <ion-col class="main-title ion-padding">
+          <div>
+            <ion-title>Place Your Order!</ion-title>
+          </div>
+        </ion-col>
+        <ion-col size="5%" class="ion-padding-end">
+          <ion-button color="danger">Cart</ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <!-- Segment for filtering dishes -->
-  <ion-segment [(ngModel)]="selectedCategory" (ngModelChange)="filterDishes($event)" color="primary">
-    <ion-segment-button value="all">
-      <ion-label>All</ion-label>
-    </ion-segment-button>
-    <ion-segment-button value="soup">
-
-      <ion-label>Soup</ion-label>
-    </ion-segment-button>
-    <ion-segment-button value="fried">
-
-      <ion-label>Fried</ion-label>
-    </ion-segment-button>
-    <ion-segment-button value="bread">
-
-      <ion-label>Bread</ion-label>
-    </ion-segment-button>
-    <ion-segment-button value="paranthas">
-
-      <ion-label>Parathas</ion-label>
-    </ion-segment-button>
-    <ion-segment-button value="meal">
-
-      <ion-label>Meals</ion-label>
-    </ion-segment-button>
-    <ion-segment-button value="continental">
-
-      <ion-label>Continentals</ion-label>
-    </ion-segment-button>
-    <ion-segment-button value="shakes">
-
-      <ion-label>Shakes</ion-label>
-    </ion-segment-button>
-    <ion-segment-button value="beverage">
-
-      <ion-label>Hot Beverages</ion-label>
-    </ion-segment-button>
-  </ion-segment>
-
-  <!-- Search bar for filtering dishes -->
-  <ion-searchbar [debounce]="1000" (ionInput)="handleInput($event)"></ion-searchbar>
-  
-  <!-- Finalise Order Button -->
-  <ion-button expand="full" (click)="finaliseOrder()">Finalise Order</ion-button>
-  
-  <!-- Grid for displaying dishes -->
+  <div class="ion-padding segment-background">
+    <ion-segment  [scrollable]="true" [(ngModel)]="selectedCategory" (ngModelChange)="filterDishes($event)" color="primary">
+      <ion-segment-button value="all" class="segment-button">
+        <ion-label class="segment-label">All</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="soup" class="segment-button">
+        <ion-label class="segment-label">Soup</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="fried" class="segment-button">
+        <ion-label class="segment-label">Fried</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="bread" class="segment-button">
+        <ion-label class="segment-label">Bread</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="paranthas" class="segment-button">
+        <ion-label class="segment-label">Parathas</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="meal" class="segment-button">
+        <ion-label class="segment-label">Meals</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="continental" class="segment-button">
+        <ion-label class="segment-label">Continentals</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="shakes" class="segment-button">
+        <ion-label class="segment-label">Shakes</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="beverage" class="segment-button">
+        <ion-label class="segment-label">Hot Beverages</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+    <div class="search-bar-container">
+      <ion-searchbar class="search-bar" [debounce]="1000" (ionInput)="handleInput($event)"></ion-searchbar>
+    </div>
+  </div>
   <ion-grid>
     <ion-row>
       <ion-col size="6" size-md="4" size-lg="3" *ngFor="let dish of DisplayDishes()">
         <ion-card>
-          <img [src]="dish.ImageSrc()" class="dish-image" />
+          <img [src]="dish.ImageSrc()" />
           <ion-card-content>
             <ion-grid>
               <ion-row>
-                <ion-col size="auto" hi>
-                  <ion-card-title>{{ dish.Name() }}</ion-card-title>
-                  
+                <ion-col>
+                  <div class="recording-title-container">
+                    <ion-card-title class="recording-title">{{ dish.Name() }}</ion-card-title>
+                  </div>
+                 
+                </ion-col>
+                <ion-col>
+                  <span class="dot"></span>
+                </ion-col>
+               
+              </ion-row>
+              <ion-row>
+                <ion-col size="auto" class="ion-text-end">
+                  <ion-label>₹{{ dish.Cost() }}</ion-label>
                 </ion-col>
                 <ion-col size="5" hi>
                   <div class="quantity-controls">
@@ -72,15 +82,26 @@
                 </ion-col>
               </ion-row>
             </ion-grid>
-           
-
-            <p class="dish-rate">₹{{ dish.Cost() }}</p>
-
-            <!-- Quantity Controls -->
-            
           </ion-card-content>
         </ion-card>
       </ion-col>
     </ion-row>
   </ion-grid>
 </ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-grid>
+      <ion-row>
+        <ion-col size="auto" class="ion-text-start">
+          <div class="total-container">
+            <ion-title>Total: {{ getTotal() }}</ion-title>
+          </div>
+        </ion-col>
+        <ion-col class="ion-text-end">
+          <ion-button color="danger">Check Out</ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-toolbar>
+</ion-footer>

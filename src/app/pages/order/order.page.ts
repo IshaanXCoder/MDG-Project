@@ -63,6 +63,10 @@ export class OrderPage extends AppPage<OrderWidgetController> {
     return this.appFlowService.getCount(name);
   }
 
+  public getTotal() : number {
+    return this.appFlowService.getTotal();
+  }
+
   public async filterDishes(category: string | undefined) : Promise<void> {
     let key = FilterFoodType[category as keyof typeof FilterFoodType];
 

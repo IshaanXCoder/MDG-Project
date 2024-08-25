@@ -4,7 +4,6 @@ import { SplashScreenWidgetController } from './widgets/splashscreen-widget-cont
 import { AppPage } from '../app-page';
 import { CustomWidgetController } from 'src/app/widgets/custom-widget-controller';
 import { SoundService } from 'src/app/services/sound/sound-affect-service';
-import { FileManager } from 'src/app/services/file-management/file-manager';
 import { ItemData } from 'src/app/Item/itemData';
 
 @Component({
@@ -15,14 +14,12 @@ import { ItemData } from 'src/app/Item/itemData';
 })
 export class SplashscreenPage extends AppPage<SplashScreenWidgetController> {
 
-  private readonly fileManager: FileManager;
   private readonly appFlowService: AppFlowService;
 
-  constructor(_appFlowService: AppFlowService, _widgetController : SplashScreenWidgetController, _soundService: SoundService, fileManager: FileManager) { 
+  constructor(_appFlowService: AppFlowService, _widgetController : SplashScreenWidgetController, _soundService: SoundService) { 
     super(_widgetController, _soundService);
     
     this.appFlowService = _appFlowService;
-    this.fileManager = fileManager;
   }
 
   protected override onInit(): void { }
@@ -42,7 +39,6 @@ export class SplashscreenPage extends AppPage<SplashScreenWidgetController> {
       await this.appFlowService.loadApplication();
     }*/
     
-    await this.fileManager.writeInitialCommit();
     await this.appFlowService.loadApplication(); 
   }
    

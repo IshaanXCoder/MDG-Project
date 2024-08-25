@@ -45,7 +45,7 @@
 
   <ion-grid>
     <ion-row>
-      <ion-col size="6" size-md="4" size-lg="3" *ngFor="let dish of FilteredDishes()">
+      <ion-col size="6" size-md="4" size-lg="3" *ngFor="let dish of filteredDishes">
         <ion-card>
           <img [src]="dish.ImageSrc()" class="dish-image" />
           <ion-card-content>

@@ -30,12 +30,14 @@ export class AppFlowService extends Initilaiziable  {
   }
 
   public async loadApplication() : Promise<void> {
-    if(!this.IsInitialised())
+    if(this.IsInitialised())
       return;
 
-    this.itemService.loadItems();
+    await this.itemService.loadItems();
     if(this.itemService.IsInitialised())
       this.initialise();
+
+    this.navigate(PageEnum.order);
   }
 
   public async newOrder() : Promise<void> {
@@ -81,7 +83,7 @@ export class AppFlowService extends Initilaiziable  {
     if(this.currentPage != page) {
       this.ngZone.run(async() => {
         this.currentPage = page;
-          await this.router.navigateByUrl('/' + page);
+        await this.router.navigateByUrl('/' + page);
       });
     }
   }

@@ -220,91 +220,91 @@ export const MENU = {
         "name": "Egg Roll (2 Eggs)",
         "cost": 50,
         "isVeg": false,
-        "foodType": "meals"
+        "foodType": "indian"
       },
       {
         "name": "Paneer Roll (6 pcs)",
         "cost": 50,
         "isVeg": true,
-        "foodType": "meals"
+        "foodType": "indian"
       },
       {
         "name": "Soy Chap Roll (6 pcs)",
         "cost": 70,
         "isVeg": true,
-        "foodType": "meals"
+        "foodType": "indian"
       },
       {
         "name": "Pao Bhaji (2 Pao, Salad & NO Amul Butter)",
         "cost": 35,
         "isVeg": true,
-        "foodType": "meals"
+        "foodType": "indian"
       },
       {
         "name": "Paneer Butter Masala (250gm)",
         "cost": 70,
         "isVeg": true,
-        "foodType": "meals"
+        "foodType": "indian"
       },
       {
         "name": "Shahi Paneer",
         "cost": 60,
         "isVeg": true,
-        "foodType": "meals"
+        "foodType": "indian"
       },
       {
         "name": "Paneer Bhujia",
         "cost": 50,
         "isVeg": true,
-        "foodType": "meals"
+        "foodType": "indian"
       },
       {
         "name": "Chole Kulche (With Amul Butter and Salad)",
         "cost": 40,
         "isVeg": true,
-        "foodType": "meals"
+        "foodType": "indian"
       },
       {
         "name": "Chole Kulche (With No Amul Butter and No Salad)",
         "cost": 30,
         "isVeg": true,
-        "foodType": "meals"
+        "foodType": "indian"
       },
       {
         "name": "Chole Bhature (With Amul Butter and Salad)",
         "cost": 50,
         "isVeg": true,
-        "foodType": "meals"
+        "foodType": "indian"
       },
       {
         "name": "Chole Bhature (With No Amul Butter and No Salad)",
         "cost": 50,
         "isVeg": true,
-        "foodType": "meals"
+        "foodType": "indian"
       },
       {
         "name": "Fried Rice",
         "cost": 35,
         "isVeg": true,
-        "foodType": "meals"
+        "foodType": "indian"
       },
       {
         "name": "Pizza",
         "cost": 70,
         "isVeg": true,
-        "foodType": "meals"
+        "foodType": "indian"
       },
       {
         "name": "Cheese Burst Pizza",
         "cost": 90,
         "isVeg": true,
-        "foodType": "meals"
+        "foodType": "indian"
       },
       {
         "name": "Paneer and Cheese Burst Pizza",
         "cost": 100,
         "isVeg": true,
-        "foodType": "meals"
+        "foodType": "indian"
       },
       {
         "name": "Tomato Soup (150ml)",
@@ -328,31 +328,31 @@ export const MENU = {
         "name": "Tea",
         "cost": 10,
         "isVeg": true,
-        "foodType": "hot_beverage"
+        "foodType": "beverage"
       },
       {
         "name": "Hot Milk (Full Cream)",
         "cost": 20,
         "isVeg": true,
-        "foodType": "hot_beverage"
+        "foodType": "beverage"
       },
       {
         "name": "Hot Coffee",
         "cost": 20,
         "isVeg": true,
-        "foodType": "hot_beverage"
+        "foodType": "beverage"
       },
       {
         "name": "Cold Coffee (300ml)",
         "cost": 30,
         "isVeg": true,
-        "foodType": "hot_beverage"
+        "foodType": "beverage"
       },
       {
         "name": "Cold Coffee (400ml)",
         "cost": 40,
         "isVeg": true,
-        "foodType": "hot_beverage"
+        "foodType": "beverage"
       },
       {
         "name": "Mango Shake (300ml)",

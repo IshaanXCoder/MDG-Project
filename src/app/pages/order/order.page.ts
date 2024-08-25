@@ -23,7 +23,6 @@ enum FilterFoodType {
   continental = FoodType.continental,
 }
 
-
 @Component({
   selector: 'app-order',
   templateUrl: './order.page.html',
@@ -37,11 +36,7 @@ export class OrderPage extends AppPage<OrderWidgetController> {
 
   private cart: CartOrder[] = [];
   
-  private filteredDishes: FoodItem[] = []; 
-  public FilteredDishes() : FoodItem[] {
-    return this.filteredDishes;
-  }
-
+  public filteredDishes: FoodItem[] = []; 
   public selectedCategory: FilterFoodType = FilterFoodType.all;
 
   constructor(_appFlowService: AppFlowService, _itemService: ItemService, _widgetController: OrderWidgetController, _soundService: SoundService) {
@@ -64,8 +59,6 @@ export class OrderPage extends AppPage<OrderWidgetController> {
 
   public async filterDishes(category: string | undefined) : Promise<void> {
     let key = FilterFoodType[category as keyof typeof FilterFoodType];
-    if(key == this.selectedCategory)
-      return;
 
     this.filteredDishes = [];
     let allItems : { [Name: string]: FoodItem } | undefined;
@@ -87,6 +80,9 @@ export class OrderPage extends AppPage<OrderWidgetController> {
     var values = Object.values(allItems);
     for(let i: number = 0; i < values.length; i++) {
       this.filteredDishes.push(values[i]);
+    }
+    for(let i: number = 0; i < values.length; i++) {
+      this.filteredDishes[i];
     }
   }
 

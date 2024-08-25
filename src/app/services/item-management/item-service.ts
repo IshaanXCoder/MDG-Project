@@ -1,25 +1,23 @@
 import { Injectable } from "@angular/core";
 
 import { FoodItem } from "../../Item/item";
-import { FileManager } from "../file-management/file-manager";
 import { FoodType } from "../../enums/food-type";
 import { Initilaiziable } from "../../initializable";
 import { ItemData } from "src/app/Item/itemData";
+import { MENU } from './menu';
 
 @Injectable()
 export class ItemService extends Initilaiziable {
-    private readonly jsonService: FileManager
 
     private allItems: { [Name: string]: FoodItem  } = {};
     private foodItems: { [Type: string] : { [Name: string]: FoodItem } } = {};
   
-    constructor(_jsonService: FileManager) {
+    constructor() {
         super();
-        this.jsonService = _jsonService;
     }
 
     public async loadItems() : Promise<void> {
-        if(!this.IsInitialised) {
+        if(this.IsInitialised()) {
             return;
         }
 
@@ -27,17 +25,15 @@ export class ItemService extends Initilaiziable {
         for(let i: number = 0; i < values.length; i++)
             this.foodItems[values[i].toString()] = { };
 
-        await this.jsonService.loadItems((name: string, value: string) => {
-            var data: ItemData = JSON.parse(value);
+        for(let i: number = 0; i < MENU.menu.length; i++) {
+            let data = MENU.menu[i];
 
-            if(data.name == undefined)
-                return;
-            
             let key = data.foodType as keyof typeof FoodType;
-            let item = new FoodItem(data.name, data.cost, data.isVeg, data.imgsrc, FoodType[key]);
-            this.allItems[name] = item;
-            this.foodItems[key][name] = item;
-        });
+            let item = new FoodItem(data.name, data.cost, data.isVeg, "src/app/assets/images" + data.name.replace(/\s/g, ""), FoodType[key]);
+            
+            this.allItems[data.name] = item;
+            this.foodItems[key][data.name] = item;
+        }
 
         this.initialise();
     }

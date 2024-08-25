@@ -5,7 +5,8 @@
 </ion-header>
 
 <ion-content>
-  <ion-segment value="all">
+  <!-- Segment for category selection -->
+  <ion-segment [(ngModel)]="selectedCategory" (ngModelChange)="filterDishes($event)" color="primary">
     <ion-segment-button value="all">
       <ion-label>All</ion-label>
     </ion-segment-button>
@@ -13,89 +14,36 @@
       <ion-icon name="pizza-outline"></ion-icon>
       <ion-label>Pizza</ion-label>
     </ion-segment-button>
-    <ion-segment-button value="burger">
-      <ion-icon name="burger-outline"></ion-icon>
-      <ion-label>Burger</ion-label>
+    <ion-segment-button value="shakes">
+      <ion-icon name="ice-cream-outline"></ion-icon>
+      <ion-label>Shakes</ion-label>
     </ion-segment-button>
-    <ion-segment-button value="sushi">
-      <ion-icon name="fish-outline"></ion-icon>
-      <ion-label>Sushi</ion-label>
-    </ion-segment-button>
-    <ion-segment-button value="meat">
-      <ion-icon name="restaurant-outline"></ion-icon>
-      <ion-label>Meat</ion-label>
+    <ion-segment-button value="drinks">
+      <ion-icon name="wine-outline"></ion-icon>
+      <ion-label>Drinks</ion-label>
     </ion-segment-button>
     <ion-segment-button value="fruits">
       <ion-icon name="nutrition-outline"></ion-icon>
       <ion-label>Fruits</ion-label>
     </ion-segment-button>
-    <ion-segment-button value="pasta">
-      <ion-icon name="cafe-outline"></ion-icon>
-      <ion-label>Pasta</ion-label>
+    <ion-segment-button value="bread">
+      <ion-icon name="restaurant-outline"></ion-icon>
+      <ion-label>Bread/Roti</ion-label>
     </ion-segment-button>
   </ion-segment>
 
-  <div class="popular-dishes">
-    <h2>Popular Dishes</h2>
-    <ion-grid>
-      <ion-row>
-        <ion-col size="4">
-          <ion-card>
-            <img src="assets/imgs/caesar-salad.jpg" />
-            <ion-card-content>
-              <ion-card-title>Classic Caesar Salad</ion-card-title>
-              <p>Rating: 4.5 - Deep Cafe - Salad</p>
-            </ion-card-content>
-          </ion-card>
-        </ion-col>
-        <ion-col size="4">
-          <ion-card>
-            <img src="assets/imgs/pizza-margherita.jpg" />
-            <ion-card-content>
-              <ion-card-title>Pizza Margherita</ion-card-title>
-              <p>Rating: 4.0 - Neapolitan - Pizza</p>
-            </ion-card-content>
-          </ion-card>
-        </ion-col>
-        <ion-col size="4">
-          <ion-card>
-            <img src="assets/imgs/muesli-mango.jpg" />
-            <ion-card-content>
-              <ion-card-title>Muesli with Mango</ion-card-title>
-              <p>Rating: 5.0 - Veggies - Fruits</p>
-            </ion-card-content>
-          </ion-card>
-        </ion-col>
-      </ion-row>
-      <ion-row>
-        <ion-col size="4">
-          <ion-card>
-            <img src="assets/imgs/avocado-egg-sandwich.jpg" />
-            <ion-card-content>
-              <ion-card-title>Avocado and Egg Sandwich</ion-card-title>
-              <p>Rating: 5.0 - Vegan Cafe - Sandwich</p>
-            </ion-card-content>
-          </ion-card>
-        </ion-col>
-        <ion-col size="4">
-          <ion-card>
-            <img src="assets/imgs/avocado-pesto-pasta.jpg" />
-            <ion-card-content>
-              <ion-card-title>Avocado Pesto Pasta</ion-card-title>
-              <p>Rating: 5.0 - Cafeteria - Pasta</p>
-            </ion-card-content>
-          </ion-card>
-        </ion-col>
-        <ion-col size="4">
-          <ion-card>
-            <img src="assets/imgs/burger-hamon.jpg" />
-            <ion-card-content>
-              <ion-card-title>Burger with Hamon</ion-card-title>
-              <p>Rating: 4.5 - Becher Club - Burger</p>
-            </ion-card-content>
-          </ion-card>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-  </div>
+  <!-- Grid for displaying dishes -->
+  <ion-grid>
+    <ion-row>
+      <ion-col size="6" size-md="4" size-lg="3" *ngFor="let dish of filteredDishes">
+        <ion-card>
+          <img [src]="dish.image" class="dish-image" />
+          <ion-card-content>
+            <ion-card-title>{{ dish.name }}</ion-card-title>
+            <p class="dish-category">{{ dish.category | titlecase }}</p>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>

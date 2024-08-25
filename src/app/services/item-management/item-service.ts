@@ -29,6 +29,9 @@ export class ItemService extends Initilaiziable {
 
         await this.jsonService.loadItems((name: string, value: string) => {
             var data: ItemData = JSON.parse(value);
+
+            if(data.name == undefined)
+                return;
             
             let key = data.foodType as keyof typeof FoodType;
             let item = new FoodItem(data.name, data.cost, data.isVeg, data.imgsrc, FoodType[key]);

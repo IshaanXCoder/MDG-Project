@@ -1,52 +1,49 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
+  <ion-toolbar color="light">
     <ion-title>My Cart</ion-title>
+    <ion-buttons slot="end">
+      <ion-button size="small" fill="outline" routerLink="/shopping" class="back-shopping-btn">
+        Back to Shopping
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
+<ion-content [fullscreen]="true" style="background: #e5e5e5;">
   <ion-grid>
-    <ion-row>
-      <ion-col size="12" class="cart-title">
-        <h2>My Cart</h2>
+    <ion-row justify-content-center>
+      <ion-col size="12" size-md="8" size-lg="7" class="cart-content">
+        <ion-list>
+          <ion-item *ngFor="let item of cartItems" lines="none" class="cart-item">
+            <ion-thumbnail slot="start" class="cart-thumbnail">
+              <img [src]="item.image" />
+            </ion-thumbnail>
+            <ion-label>
+              <h3>{{ item.name }}</h3>
+              <p>Price: {{ item.price | currency }}</p>
+              <p>Total: {{ item.totalPrice | currency }}</p>
+            </ion-label>
+            <ion-buttons slot="end">
+              <ion-button color="medium" (click)="decrement(item)" shape="round">
+                <ion-icon name="remove-outline"></ion-icon>
+              </ion-button>
+              <ion-label>{{ item.quantity }}</ion-label>
+              <ion-button color="medium" (click)="increment(item)" shape="round">
+                <ion-icon name="add-outline"></ion-icon>
+              </ion-button>
+            </ion-buttons>
+            <ion-button color="danger" fill="clear" (click)="removeItem(item)">
+              <ion-icon name="close-outline"></ion-icon>
+            </ion-button>
+          </ion-item>
+        </ion-list>
       </ion-col>
     </ion-row>
 
-    <ion-list>
-      <ion-item *ngFor="let item of cartItems">
-        <ion-thumbnail slot="start">
-          <img [src]="item.image" />
-        </ion-thumbnail>
-        <ion-label>
-          <h3>{{ item.name }}</h3>
-          <p>Price: {{ item.price | currency }}</p>
-          <p>Total: {{ item.totalPrice | currency }}</p>
-        </ion-label>
-        <ion-buttons slot="end">
-          <ion-button color="light" (click)="decrement(item)">
-            <ion-icon name="remove-outline"></ion-icon>
-          </ion-button>
-          <ion-label>{{ item.quantity }}</ion-label>
-          <ion-button color="light" (click)="increment(item)">
-            <ion-icon name="add-outline"></ion-icon>
-          </ion-button>
-        </ion-buttons>
-        <ion-button color="danger" fill="clear" (click)="removeItem(item)">
-          <ion-icon name="close-outline"></ion-icon>
-        </ion-button>
-      </ion-item>
-    </ion-list>
-
-    <ion-row class="subtotal">
-      <ion-col size="6">
-        <ion-button expand="full" fill="outline" routerLink="/shopping">
-          Back to Shopping
-        </ion-button>
-      </ion-col>
-      <ion-col size="6" class="text-end">
-        <h2>Subtotal: {{ getTotal() | currency }}</h2>
-        <ion-button expand="full" color="primary">
-          Checkout
+    <ion-row justify-content-center class="subtotal">
+      <ion-col size="12" size-md="8" size-lg="7" class="text-end">
+        <ion-button expand="full" color="primary" class="checkout-btn">
+          Checkout ({{ getTotal() | currency }})
         </ion-button>
       </ion-col>
     </ion-row>

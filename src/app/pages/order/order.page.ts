@@ -1,53 +1,157 @@
 import { Component } from '@angular/core';
+import { App } from '@capacitor/app';
+import { FoodType } from 'src/app/enums/food-type';
+import { OrderWidgetController } from './widgets/order-widget-controller';
+import { AppPage } from '../app-page';
+import { AppFlowService } from 'src/app/services/app-flow-service';
+import { CustomWidgetController } from 'src/app/widgets/custom-widget-controller';
+import { SoundService } from 'src/app/services/sound/sound-affect-service';
+import { FoodItem } from 'src/app/Item/item';
+import { ItemService } from 'src/app/services/item-management/item-service';
+import { INameable } from 'src/app/interfaces/I-namebale';
+import { CartOrder } from './services/card-order';
+
+enum FilterFoodType {
+  all = 'all',
+  soup = FoodType.soup,
+  fried = FoodType.fried,
+  bread = FoodType.bread,
+  indian = FoodType.indian,
+  shakes = FoodType.shakes,
+  beverage = FoodType.beverage,
+  paranthas = FoodType.paranthas,
+  continental = FoodType.continental,
+}
+
 
 @Component({
   selector: 'app-order',
   templateUrl: './order.page.html',
   styleUrls: ['./order.page.scss'],
+  providers: [OrderWidgetController]
 })
-export class OrderPage {
-  selectedCategory: string = 'all';
+export class OrderPage extends AppPage<OrderWidgetController> {
+  
+  private readonly itemService: ItemService;
+  private readonly appFlowService: AppFlowService;
 
-  dishes = [
-    { name: 'Pizza Margherita', image: 'assets/imgs/pizza-margherita.jpg', category: 'pizza' },
-    { name: 'Pepperoni Pizza', image: 'assets/imgs/pepperoni-pizza.jpg', category: 'pizza' },
-    { name: 'BBQ Chicken Pizza', image: 'assets/imgs/bbq-chicken-pizza.jpg', category: 'pizza' },
-    { name: 'Vegetarian Pizza', image: 'assets/imgs/vegetarian-pizza.jpg', category: 'pizza' },
+  private cart: CartOrder[] = [];
+  
+  private filteredDishes: FoodItem[] = []; 
+  public FilteredDishes() : FoodItem[] {
+    return this.filteredDishes;
+  }
 
-    { name: 'Chocolate Shake', image: 'assets/imgs/chocolate-shake.jpg', category: 'shakes' },
-    { name: 'Vanilla Shake', image: 'assets/imgs/vanilla-shake.jpg', category: 'shakes' },
-    { name: 'Strawberry Shake', image: 'assets/imgs/strawberry-shake.jpg', category: 'shakes' },
-    { name: 'Mango Shake', image: 'assets/imgs/mango-shake.jpg', category: 'shakes' },
-    { name: 'Green Tea Shake', image: 'assets/imgs/green-tea-shake.jpg', category: 'shakes' },
-    { name: 'Oreo Shake', image: 'assets/imgs/oreo-shake.jpg', category: 'shakes' },
+  public selectedCategory: FilterFoodType = FilterFoodType.all;
 
-    { name: 'Coke', image: 'assets/imgs/coke.jpg', category: 'drinks' },
-    { name: 'Pepsi', image: 'assets/imgs/pepsi.jpg', category: 'drinks' },
-    { name: 'Lemonade', image: 'assets/imgs/lemonade.jpg', category: 'drinks' },
-    { name: 'Iced Tea', image: 'assets/imgs/iced-tea.jpg', category: 'drinks' },
-    { name: 'Orange Juice', image: 'assets/imgs/orange-juice.jpg', category: 'drinks' },
+  constructor(_appFlowService: AppFlowService, _itemService: ItemService, _widgetController: OrderWidgetController, _soundService: SoundService) {
+    super(_widgetController, _soundService);
 
-    { name: 'Apple', image: 'assets/imgs/apple.jpg', category: 'fruits' },
-    { name: 'Banana', image: 'assets/imgs/banana.jpg', category: 'fruits' },
-    { name: 'Grapes', image: 'assets/imgs/grapes.jpg', category: 'fruits' },
-    { name: 'Mango', image: 'assets/imgs/mango.jpg', category: 'fruits' },
-    { name: 'Orange', image: 'assets/imgs/orange.jpg', category: 'fruits' },
-    { name: 'Pineapple', image: 'assets/imgs/pineapple.jpg', category: 'fruits' },
-    { name: 'Strawberry', image: 'assets/imgs/strawberry.jpg', category: 'fruits' },
+    this.itemService = _itemService;
+    this.appFlowService = _appFlowService;
+  }
 
-    { name: 'Naan', image: 'assets/imgs/naan.jpg', category: 'bread' },
-    { name: 'Roti', image: 'assets/imgs/roti.jpg', category: 'bread' },
-    { name: 'Paratha', image: 'assets/imgs/paratha.jpg', category: 'bread' },
-    { name: 'Garlic Naan', image: 'assets/imgs/garlic-naan.jpg', category: 'bread' },
-  ];
+  protected override onInit(): void { }
+  protected override viewWillEnter(): void { 
+    this.selectedCategory = FilterFoodType.all;
+    
+    this.cart = [];
+    this.filterDishes(FilterFoodType.all);
+  }
 
-  filteredDishes = this.dishes;
+  protected override async viewDidEnter() : Promise<void> {  }
+  protected override viewDidLeave(): void { }
 
-  filterDishes(category: string | undefined) {
-    if (category === undefined || category === 'all') {
-      this.filteredDishes = this.dishes;
-    } else {
-      this.filteredDishes = this.dishes.filter(dish => dish.category === category);
+  public async filterDishes(category: string | undefined) : Promise<void> {
+    let key = FilterFoodType[category as keyof typeof FilterFoodType];
+    if(key == this.selectedCategory)
+      return;
+
+    this.filteredDishes = [];
+    let allItems : { [Name: string]: FoodItem } | undefined;
+
+    if (category === undefined || category == FilterFoodType.all) {
+      allItems  = this.itemService.getAllItems();
+      this.selectedCategory = FilterFoodType.all;
+    } 
+    else {
+      allItems = this.itemService.getItems(FoodType[category as keyof typeof FoodType]);
+      this.selectedCategory = key;
     }
+
+    if(allItems == undefined) {
+      this.widgetController.presentErrorAlert();
+      return;
+    }
+
+    var values = Object.values(allItems);
+    for(let i: number = 0; i < values.length; i++) {
+      this.filteredDishes.push(values[i]);
+    }
+  }
+
+  public async incrementDish(name: string | undefined) : Promise<void> {
+    if(name == undefined) {
+      this.widgetController.presentErrorAlert();
+      return;
+    }
+    
+    let cartOrder = this.findOrderedDish(name);
+    if(cartOrder == undefined) {
+      let result = this.findFilteredDish(name);
+      
+      if(result == undefined) {
+        this.widgetController.presentErrorAlert();
+        return;
+      }
+      else {
+        this.cart.push(new CartOrder(result));
+      }
+    }
+    else {
+      cartOrder.IncrementCount();
+    }
+  }
+
+  public async decrementDish(name: string | undefined) : Promise<void> {
+    if(name == undefined) {
+      this.widgetController.presentErrorAlert();
+      return;
+    }
+    
+    let cartOrder = this.findOrderedDish(name);
+    if(cartOrder == undefined) {
+      await this.widgetController.presentNoDishToast();
+    }
+    else {
+      cartOrder.DecrementCount();
+      if(cartOrder.Count() == 0) {
+        const index = this.cart.indexOf(cartOrder, 0);
+        if (index > -1) {
+          this.cart.splice(index, 1);
+        }
+      }
+    }
+  }
+
+  public async finaliseOrder() : Promise<void> {
+    await this.appFlowService.finaliseOrder(this.cart);
+  }
+
+  private findOrderedDish(name: string ) : CartOrder | undefined {
+    return this.findDish(name, this.cart) as CartOrder;
+  }
+
+  private findFilteredDish(name: string ) : FoodItem | undefined {
+    return this.findDish(name, this.filteredDishes) as FoodItem;
+  }
+
+  private findDish<Type extends INameable>(name: string, dishes: Type[] ) : Type | undefined {
+    for(let i: number = 0; i < dishes.length; i++) {
+      if(dishes[i].Name() == name)
+        return dishes[i];
+    }
+
+    return undefined;
   }
 }

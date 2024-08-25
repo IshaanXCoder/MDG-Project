@@ -5,42 +5,52 @@
 </ion-header>
 
 <ion-content>
-  <!-- Segment for category selection -->
   <ion-segment [(ngModel)]="selectedCategory" (ngModelChange)="filterDishes($event)" color="primary">
     <ion-segment-button value="all">
       <ion-label>All</ion-label>
     </ion-segment-button>
-    <ion-segment-button value="pizza">
+    <ion-segment-button value="soup">
       <ion-icon name="pizza-outline"></ion-icon>
-      <ion-label>Pizza</ion-label>
+      <ion-label>Soup</ion-label>
     </ion-segment-button>
-    <ion-segment-button value="shakes">
+    <ion-segment-button value="fried">
       <ion-icon name="ice-cream-outline"></ion-icon>
-      <ion-label>Shakes</ion-label>
-    </ion-segment-button>
-    <ion-segment-button value="drinks">
-      <ion-icon name="wine-outline"></ion-icon>
-      <ion-label>Drinks</ion-label>
-    </ion-segment-button>
-    <ion-segment-button value="fruits">
-      <ion-icon name="nutrition-outline"></ion-icon>
-      <ion-label>Fruits</ion-label>
+      <ion-label>Fried</ion-label>
     </ion-segment-button>
     <ion-segment-button value="bread">
+      <ion-icon name="ice-cream-outline"></ion-icon>
+      <ion-label>Bread</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="paranthas">
+      <ion-icon name="wine-outline"></ion-icon>
+      <ion-label>Paranthas</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="indian">
+      <ion-icon name="nutrition-outline"></ion-icon>
+      <ion-label>Indian Meals</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="continentals">
+      <ion-icon name="nutrition-outline"></ion-icon>
+      <ion-label>Continentals</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="shakes">
       <ion-icon name="restaurant-outline"></ion-icon>
-      <ion-label>Bread/Roti</ion-label>
+      <ion-label>Shakes</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="beverages">
+      <ion-icon name="restaurant-outline"></ion-icon>
+      <ion-label>Hot Beverages</ion-label>
     </ion-segment-button>
   </ion-segment>
 
-  <!-- Grid for displaying dishes -->
   <ion-grid>
     <ion-row>
-      <ion-col size="6" size-md="4" size-lg="3" *ngFor="let dish of filteredDishes">
+      <ion-col size="6" size-md="4" size-lg="3" *ngFor="let dish of FilteredDishes()">
         <ion-card>
-          <img [src]="dish.image" class="dish-image" />
+          <img [src]="dish.ImageSrc()" class="dish-image" />
           <ion-card-content>
-            <ion-card-title>{{ dish.name }}</ion-card-title>
-            <p class="dish-category">{{ dish.category | titlecase }}</p>
+            <ion-card-title>{{ dish.Name() }}</ion-card-title>
+            <p class="dish-category">{{ dish.FoodType_Str() | titlecase }}</p>
           </ion-card-content>
         </ion-card>
       </ion-col>

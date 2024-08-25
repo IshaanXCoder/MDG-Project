@@ -1,4 +1,4 @@
-export abstract class Initilaisiable {
+export abstract class Initilaiziable {
     private isInitialised: boolean = false;
     IsInitialised() : boolean {
         return this.isInitialised;

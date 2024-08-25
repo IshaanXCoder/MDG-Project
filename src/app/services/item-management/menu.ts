@@ -205,7 +205,7 @@ export const MENU = {
         "foodType": "continental"
       },
       {
-        "name": "Paneer Kulcha/Hot Dog",
+        "name": "Paneer Kulcha Hot Dog",
         "cost": 40,
         "isVeg": true,
         "foodType": "continental"

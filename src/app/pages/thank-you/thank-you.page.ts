@@ -34,5 +34,9 @@ export class ThankYouPage extends AppPage<ThankYouWidgetController> {
     await this.appFlowService.newOrder();
   }
 
+  public getCode() : string {
+    return this.appFlowService.getCode();
+  }
+
   protected override viewDidLeave(): void { }
 }

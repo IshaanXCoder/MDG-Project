@@ -20,7 +20,12 @@ export class Cart {
   }
 
   public getTotal() : number {
-    return this.orders.reduce((total, item) => total + item.Item().Cost(), 0);
+    let final: number = 0;
+    this.orders.forEach((value) => {
+      final += value.TotalCost();
+    });
+
+    return final;
   }
 
   public clearCart() : void {
@@ -37,6 +42,7 @@ export class Cart {
 
       if(result != undefined) {
         this.orders.push(new CartOrder(result));
+        this.addToCart(item);
       }   
     }
   }

@@ -42,7 +42,7 @@
 
     <ion-row justify-content-center class="subtotal">
       <ion-col size="12" size-md="8" size-lg="7" class="text-end">
-        <ion-button expand="full" color="primary" class="checkout-btn myBTN">
+        <ion-button expand="full" color="primary" class="checkout-btn myBTN" (click)="completeOrder()">
           Checkout  ₹({{ getTotal()}})
         </ion-button>
       </ion-col>

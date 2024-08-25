@@ -6,7 +6,9 @@ import { ItemService } from "./item-management/item-service";
 import { PageEnum } from "../enums/page-enum";
 
 import { Initilaiziable } from "../initializable";
-import { CartOrder } from "../pages/order/services/card-order";
+import { CartOrder } from "../Item/card-order";
+import { Cart } from "../Item/cart";
+import { FoodItem } from "../Item/item";
 
 @Injectable()
 export class AppFlowService extends Initilaiziable  {
@@ -15,8 +17,8 @@ export class AppFlowService extends Initilaiziable  {
     
   private readonly itemService : ItemService;
 
+  private readonly cart: Cart;
   private currentPage: PageEnum;
-  private currentOrder: CartOrder[];
 
   constructor(_router: Router, _ngZone: NgZone, _itemService: ItemService) {
     super();
@@ -25,7 +27,7 @@ export class AppFlowService extends Initilaiziable  {
     this.ngZone = _ngZone;
     this.itemService = _itemService;
 
-    this.currentOrder = [];
+    this.cart = new Cart();
     this.currentPage = PageEnum.splashscreen;
   }
 
@@ -40,60 +42,69 @@ export class AppFlowService extends Initilaiziable  {
     this.navigate(PageEnum.order);
   }
 
-  public generateCode() : string {
-    return this.currentOrder.length + "" + this.currentOrder.reduce((total, item) => total + item.Item().Cost(), 0);
+  public getCode() : string {
+    return this.cart.getCode();
+  }
+
+  public getTotal() : number {
+    return this.cart.getTotal();
+  }
+
+  public getCount(item: FoodItem): number {
+    return this.cart.getCount(item);
+  }
+
+  public addToCart(item: FoodItem): void {
+    this.cart.addToCart(item);
+  }
+
+  public removeFromCart(item: FoodItem): void {
+    this.cart.removeFromCart(item);
+  }
+
+  public removeAllFromCart(item: FoodItem): void {
+    this.cart.removeAllFromCart(item);
+  }
+
+  public getCart() : CartOrder[] {
+    return this.cart.getOrders();
   }
 
   public async newOrder() : Promise<void> {
-    this.clearCurrentOrder();
+    this.cart.clearCart();
 
     await this.navigate(PageEnum.order);
   }
 
-  public async finaliseOrder(order: CartOrder[]) : Promise<void> {
+  public async finaliseOrder() : Promise<void> {
     if(this.currentPage != PageEnum.order) {
       return;
     }
 
-    console.log('hi');
-    this.changeCurrentOrder(order);
     await this.navigate(PageEnum.bill);
   }
 
-  public async editOrder(order: CartOrder[]) : Promise<void> {
+  public async editOrder() : Promise<void> {
     if(this.currentPage != PageEnum.bill) {
       return;
     }
       
-    this.changeCurrentOrder(order);
     await this.navigate(PageEnum.order);
   }
 
-  public async completeOrder(order: CartOrder[]) : Promise<void> {
+  public async completeOrder() : Promise<void> {
     if(this.currentPage != PageEnum.bill) {
       return;
     }
     
-    this.changeCurrentOrder(order);
     await this.navigate(PageEnum.thank_you);
   }
-
-  private clearCurrentOrder()  {
-    this.currentOrder.splice(0, this.currentOrder.length);
-  }
-
-  private changeCurrentOrder(order: CartOrder[])  {
-    this.currentOrder.splice(0, this.currentOrder.length);
-
-    for(let i: number = 0; i < order.length; i++)
-      this.currentOrder.push(order[i]);
-  }
   
-  private async navigate(page: PageEnum) : Promise<void> {
-    if(this.currentPage != page) {
+  private async navigate(next: PageEnum) : Promise<void> {
+    if(this.currentPage != next) {
       this.ngZone.run(async() => {
-        this.currentPage = page;
-        await this.router.navigateByUrl('/' + page);
+        this.currentPage = next;
+        await this.router.navigateByUrl('/' + next);
       });
     }
   }

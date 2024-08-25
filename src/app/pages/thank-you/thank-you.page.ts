@@ -23,7 +23,7 @@ export class ThankYouPage extends AppPage<ThankYouWidgetController> {
     super(_widgetController, _soundService);
     
     this.appFlowService = _appFlowService;
-    this.code = this.appFlowService.generateCode();
+    this.code = this.appFlowService.getCode();
   }
 
   protected override onInit(): void { }

@@ -14,7 +14,7 @@
     <ion-row justify-content-center>
       <ion-col size="12" size-md="8" size-lg="7" class="cart-content">
         <ion-list>
-          <ion-item *ngFor="let item of Cart()" lines="none" class="cart-item">
+          <ion-item *ngFor="let item of getCart()" lines="none" class="cart-item">
             <ion-thumbnail slot="start" class="cart-thumbnail">
               <img [src]="item.Item().ImageSrc()" />
             </ion-thumbnail>

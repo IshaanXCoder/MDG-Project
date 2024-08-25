@@ -21,7 +21,7 @@ export class FoodItem implements INameable
 
     private readonly imageSrc: string;
     public ImageSrc(): string {
-        return this.foodType;
+        return this.imageSrc;
     }
 
     private readonly foodType: FoodType;

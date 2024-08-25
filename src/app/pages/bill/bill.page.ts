@@ -1,11 +1,13 @@
 import { Component } from '@angular/core';
+
 import { AppPage } from '../app-page';
 
 import { BillWidgetController } from './widgets/bill-widget-controller';
+
 import { AppFlowService } from 'src/app/services/app-flow-service';
 import { SoundService } from 'src/app/services/sound/sound-affect-service';
-import { CartOrder } from '../order/services/card-order';
 import { ItemService } from 'src/app/services/item-management/item-service';
+import { CartOrder } from 'src/app/Item/card-order';
 
 @Component({
   selector: 'app-cart',
@@ -18,11 +20,6 @@ export class BillPage extends AppPage<BillWidgetController> {
   private readonly itemService: ItemService;
   private readonly appFlowService: AppFlowService;
 
-  private cart: CartOrder[] = [];
-  public Cart() : CartOrder[] {
-    return this.cart;
-  }
-  
   constructor(_appFlowService: AppFlowService, _itemService: ItemService, _widgetController: BillWidgetController, _soundService: SoundService) {
     super(_widgetController, _soundService)
 
@@ -33,10 +30,13 @@ export class BillPage extends AppPage<BillWidgetController> {
   protected override onInit(): void { }
   protected override viewWillEnter(): void {  }
   protected override async viewDidEnter(): Promise<void> { }
-  protected override viewDidLeave(): void { }
 
   public getTotal() : number {
-    return this.cart.reduce((total, item) => total + item.Item().Cost(), 0);
+    return this.appFlowService.getTotal();
+  }
+
+  public getCart() : CartOrder[] {
+    return this.appFlowService.getCart();
   }
 
   public async increment(name: string | undefined) : Promise<void> {
@@ -45,12 +45,12 @@ export class BillPage extends AppPage<BillWidgetController> {
       return;
     }
     
-    let cartOrder = this.findOrderedDish(name);
-    if(cartOrder == undefined) {
+    let item = this.itemService.getItem(name);
+    if(item == undefined) {
       this.widgetController.presentErrorAlert();
     }
     else {
-      cartOrder.IncrementCount();
+      this.appFlowService.addToCart(item);
     }
   }
 
@@ -60,44 +60,45 @@ export class BillPage extends AppPage<BillWidgetController> {
       return;
     }
     
-    let cartOrder = this.findOrderedDish(name);
-    if(cartOrder == undefined) {
+    let item = this.itemService.getItem(name);
+    if(item == undefined) {
+      this.widgetController.presentErrorAlert();
+    }
+    else {
+      if(this.appFlowService.getCount(item) == 0) {
+        await this.widgetController.presentNoDishToast();
+      }
+      else {
+        this.appFlowService.removeFromCart(item);
+      }
+    }
+  }
+
+  public async removeItem(name: string | undefined) : Promise<void> {
+    if(name == undefined) {
+      this.widgetController.presentErrorAlert();
+      return;
+    }
+    
+    let item = this.itemService.getItem(name);
+    if(item == undefined) {
+      this.widgetController.presentErrorAlert();
+    }
+    else if(this.appFlowService.getCount(item) == 0) {
       await this.widgetController.presentNoDishToast();
     }
     else {
-      cartOrder.DecrementCount();
-      if(cartOrder.Count() == 0) {
-        this.cart.splice(this.cart.indexOf(cartOrder, 0), 1);
-      }
+      this.appFlowService.removeAllFromCart(item);
     }
-  }
-
-  public async removeItem(name: string | undefined): Promise<void> {
-    for(let i: number = 0; i < this.cart.length; i++) {
-      if(this.cart[i].Name() == name) {
-        this.cart.splice(i, 1);
-        break;
-      } 
-    }
-
-    await this.widgetController.presentNoDishToast();
   }
 
   public async editOrder() : Promise<void> {
-    await this.appFlowService.editOrder(this.cart);
+    await this.appFlowService.editOrder();
   }
 
   public async completeOrder() : Promise<void> {
-    await this.appFlowService.completeOrder(this.cart);
+    await this.appFlowService.completeOrder();
   }
 
-  private findOrderedDish(name: string) : CartOrder | undefined {
-    for(let i: number = 0; i < this.cart.length; i++) {
-      if(this.cart[i].Name() == name) {
-        return this.cart[i];
-      }
-    }
-
-    return undefined;
-  }  
+  protected override viewDidLeave(): void { }
 }

@@ -1,15 +1,15 @@
 import { Component } from '@angular/core';
-import { App } from '@capacitor/app';
-import { FoodType } from 'src/app/enums/food-type';
-import { OrderWidgetController } from './widgets/order-widget-controller';
+
 import { AppPage } from '../app-page';
-import { AppFlowService } from 'src/app/services/app-flow-service';
-import { CustomWidgetController } from 'src/app/widgets/custom-widget-controller';
-import { SoundService } from 'src/app/services/sound/sound-affect-service';
+
 import { FoodItem } from 'src/app/Item/item';
+import { FoodType } from 'src/app/enums/food-type';
+
+import { OrderWidgetController } from './widgets/order-widget-controller';
+
+import { AppFlowService } from 'src/app/services/app-flow-service';
+import { SoundService } from 'src/app/services/sound/sound-affect-service';
 import { ItemService } from 'src/app/services/item-management/item-service';
-import { INameable } from 'src/app/interfaces/I-namebale';
-import { CartOrder } from './services/card-order';
 
 enum FilterFoodType {
   all = 'all',
@@ -34,13 +34,6 @@ export class OrderPage extends AppPage<OrderWidgetController> {
   private readonly itemService: ItemService;
   private readonly appFlowService: AppFlowService;
 
-  private cart: CartOrder[] = [];
-  public Cart() : CartOrder[] {
-    return this.cart;
-  }
-
-  public S: string = "hello lalala";
-  
   private filteredDishes: FoodItem[] = []; 
 
   private displayDishes: FoodItem[] = []; 
@@ -60,39 +53,32 @@ export class OrderPage extends AppPage<OrderWidgetController> {
   protected override onInit(): void { }
   protected override viewWillEnter(): void { 
     this.selectedCategory = FilterFoodType.all;
-    
-    this.cart = [];
-    this.filterDishes(FilterFoodType.all);
+
+    this.filterDishes(this.selectedCategory);
   }
 
-  protected override async viewDidEnter() : Promise<void> {  }
-  protected override viewDidLeave(): void { }
+  protected override async viewDidEnter() : Promise<void> { }
 
   public async filterDishes(category: string | undefined) : Promise<void> {
     let key = FilterFoodType[category as keyof typeof FilterFoodType];
 
-    this.displayDishes = [];
-    this.filteredDishes = [];
-    let allItems : { [Name: string]: FoodItem } | undefined;
-
+    this.displayDishes.length = this.filteredDishes.length = 0;
+    
     if (category === undefined || category == FilterFoodType.all) {
-      allItems  = this.itemService.getAllItems();
       this.selectedCategory = FilterFoodType.all;
-    } 
+
+      this.itemService.iterateAllItems((value) => {
+        this.displayDishes.push(value);
+        this.filteredDishes.push(value);
+      });
+    }
     else {
-      allItems = this.itemService.getItems(FoodType[category as keyof typeof FoodType]);
       this.selectedCategory = key;
-    }
 
-    if(allItems == undefined) {
-      this.widgetController.presentErrorAlert();
-      return;
-    }
-
-    var values = Object.values(allItems);
-    for(let i: number = 0; i < values.length; i++) {
-      this.displayDishes.push(values[i]);
-      this.filteredDishes.push(values[i]);
+      this.itemService.iterateAllFoodType(FoodType[category as keyof typeof FoodType], (value) => {
+        this.displayDishes.push(value);
+        this.filteredDishes.push(value);
+      });
     }
   }
 
@@ -102,20 +88,12 @@ export class OrderPage extends AppPage<OrderWidgetController> {
       return;
     }
     
-    let cartOrder = this.findOrderedDish(name);
-    if(cartOrder == undefined) {
-      let result = this.findFilteredDish(name);
-      
-      if(result == undefined) {
-        this.widgetController.presentErrorAlert();
-        return;
-      }
-      else {
-        this.cart.push(new CartOrder(result));
-      }
+    let item = this.itemService.getItem(name);
+    if(item == undefined) {
+      this.widgetController.presentErrorAlert();
     }
     else {
-      cartOrder.IncrementCount();
+      this.appFlowService.addToCart(item);
     }
   }
 
@@ -125,15 +103,35 @@ export class OrderPage extends AppPage<OrderWidgetController> {
       return;
     }
     
-    let cartOrder = this.findOrderedDish(name);
-    if(cartOrder == undefined) {
+    let item = this.itemService.getItem(name);
+    if(item == undefined) {
+      this.widgetController.presentErrorAlert();
+    }
+    else {
+      if(this.appFlowService.getCount(item) == 0) {
+        await this.widgetController.presentNoDishToast();
+      }
+      else {
+        this.appFlowService.removeFromCart(item);
+      }
+    }
+  }
+
+  public async removeItem(name: string | undefined) : Promise<void> {
+    if(name == undefined) {
+      this.widgetController.presentErrorAlert();
+      return;
+    }
+    
+    let item = this.itemService.getItem(name);
+    if(item == undefined) {
+      this.widgetController.presentErrorAlert();
+    }
+    else if(this.appFlowService.getCount(item) == 0) {
       await this.widgetController.presentNoDishToast();
     }
     else {
-      cartOrder.DecrementCount();
-      if(cartOrder.Count() == 0) {
-        this.cart.splice(this.cart.indexOf(cartOrder, 0), 1);
-      }
+      this.appFlowService.removeAllFromCart(item);
     }
   }
   
@@ -144,23 +142,8 @@ export class OrderPage extends AppPage<OrderWidgetController> {
 
   public async finaliseOrder() : Promise<void> {
     
-    await this.appFlowService.finaliseOrder(this.cart);
+    await this.appFlowService.finaliseOrder();
   }
 
-  private findOrderedDish(name: string ) : CartOrder | undefined {
-    return this.findDish(name, this.cart) as CartOrder;
-  }
-
-  private findFilteredDish(name: string ) : FoodItem | undefined {
-    return this.findDish(name, this.filteredDishes) as FoodItem;
-  }
-
-  private findDish<Type extends INameable>(name: string, dishes: Type[] ) : Type | undefined {
-    for(let i: number = 0; i < dishes.length; i++) {
-      if(dishes[i].Name() == name)
-        return dishes[i];
-    }
-
-    return undefined;
-  }
+  protected override viewDidLeave(): void { }
 }

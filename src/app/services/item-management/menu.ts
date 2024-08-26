@@ -1,31 +1,31 @@
 export const MENU = {
   "menu": [
       {
-        "name": "Plain Paratha",
+        "name": "Plain Parantha",
         "cost": 10,
         "isVeg": true,
         "foodType": "paranthas"
       },
       {
-        "name": "Aloo Paratha",
+        "name": "Aloo Parantha",
         "cost": 25,
         "isVeg": true,
         "foodType": "paranthas"
       },
       {
-        "name": "Paneer Paratha",
+        "name": "Paneer Parantha",
         "cost": 30,
         "isVeg": true,
         "foodType": "paranthas"
       },
       {
-        "name": "Mixed Paratha",
+        "name": "Mixed Parantha",
         "cost": 25,
         "isVeg": true,
         "foodType": "paranthas"
       },
       {
-        "name": "Masala Paratha",
+        "name": "Masala Parantha",
         "cost": 25,
         "isVeg": true,
         "foodType": "paranthas"
@@ -253,26 +253,8 @@ export const MENU = {
         "foodType": "meal"
       },
       {
-        "name": "Paneer Bhujia",
-        "cost": 50,
-        "isVeg": true,
-        "foodType": "meal"
-      },
-      {
         "name": "Chole Kulche (With Amul Butter and Salad)",
         "cost": 40,
-        "isVeg": true,
-        "foodType": "meal"
-      },
-      {
-        "name": "Chole Kulche (With No Amul Butter and No Salad)",
-        "cost": 30,
-        "isVeg": true,
-        "foodType": "meal"
-      },
-      {
-        "name": "Chole Bhature (With Amul Butter and Salad)",
-        "cost": 50,
         "isVeg": true,
         "foodType": "meal"
       },
@@ -411,12 +393,6 @@ export const MENU = {
       {
         "name": "Strawberry Shake (400ml)",
         "cost": 35,
-        "isVeg": true,
-        "foodType": "shakes"
-      },
-      {
-        "name": "Pineapple Shake (300ml)",
-        "cost": 30,
         "isVeg": true,
         "foodType": "shakes"
       },

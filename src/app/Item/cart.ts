@@ -1,8 +1,8 @@
 import { CartOrder } from "./card-order";
+
 import { ItemService } from "../services/item-management/item-service";
 
 export class Cart {
-
   private readonly itemService : ItemService;
 
   private readonly orders: CartOrder[];
@@ -16,7 +16,7 @@ export class Cart {
   }
 
   public getCode() : string {
-    return this.orders.length + '' + this.getTotal();
+    return this.orders.length + '' + Math.floor(Math.random() * 100);
   }
 
   public getTotal() : number {
@@ -59,11 +59,7 @@ export class Cart {
   }
 
   public removeAllFromCart(item: string) : void {
-    for(let i: number =0 ; i < this.orders.length; i++) {
-      if(this.orders[i].Name() == item) {
-        this.orders.splice(i, 1);
-      }
-    }
+    this.removeInCart(item);
   }
 
   public getCount(item: string) : number {

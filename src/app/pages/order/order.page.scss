@@ -67,7 +67,14 @@ ion-segment {
   color: gray;
 }
 
-.recording-title-container {
+.item-data {
+  margin: -20px;
+
+  border-top-left-radius: 45px;
+  border-top-right-radius: 45px;
+}
+
+.card-title-container {
   padding: 0;
 
   width: 170px;
@@ -76,11 +83,22 @@ ion-segment {
   scrollbar-width: none;
 }
 
-.recording-title {
-  color: black;
+.card-title {
+  color: white;
 
   font-size: 20px;
   font-weight: bold;
+}
+
+.card-count {
+  background-color: black;
+}
+
+.card-price {
+  color: #E4DDDD;
+
+  font-size: 20px;
+  font-weight: bolder;
 }
 
 ion-card.dish-card {
@@ -113,9 +131,17 @@ ion-card-title {
 .dot {
   height: 25px;
   width: 25px;
-  background-color: #bbb;
+ 
   border-radius: 50%;
   display: inline-block;
+}
+
+.dot[color=green] {
+  background-color: green;
+}
+
+.dot[color=red] {
+  background-color: red;
 }
 
 ion-card-content {
@@ -126,6 +152,12 @@ ion-button[shape=circle] {
   --border-radius: 50%;
   width: 32px;
   height: 32px;
+}
+
+.item-price {
+  color: white;
+  size: 40px;
+  
 }
 
 .dish-rate {
@@ -165,4 +197,43 @@ ion-button[shape=circle] {
   border-radius: 3px;
 
   background-color: #c54c31;
+}
+
+/* Center content horizontally */
+.cart-content {
+  padding: 16px;
+  margin: 0 auto; /* Center the content horizontally */
+  max-width: 600px; /* Reduced width of the container */
+  flex: 1; /* Allow content to grow and take available space */
+}
+
+/* Full-width white container with fixed button and label */
+.subtotal {
+  position: fixed; /* Fix it to the bottom */
+  bottom: 0;
+  left: 0;
+  padding: 16px;
+  background-color: #781D09;
+
+  box-shadow: 0px -4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column; /* Align items vertically */
+  align-items: flex-end; /* Align items to the end (right) */
+  width: 100%; /* Full width of the viewport */
+  max-width: none; /* No max-width constraint */
+}
+
+/* Subtotal Content Styles */
+.subtotal-content {
+  display: flex;
+  flex-direction: column; /* Stack TOTAL label and button vertically */
+  align-items: flex-end; /* Align items to the end (right) */
+  width: 100%; /* Full width of the container */
+}
+
+/* Thumbnail Styles */
+.cart-thumbnail {
+  --border-radius: 8px;
+  margin-right: 16px;
 }

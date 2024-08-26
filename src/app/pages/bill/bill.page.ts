@@ -2,12 +2,14 @@ import { Component } from '@angular/core';
 
 import { AppPage } from '../app-page';
 
+import { CartOrder } from 'src/app/Item/card-order';
+
 import { BillWidgetController } from './widgets/bill-widget-controller';
 
 import { AppFlowService } from 'src/app/services/app-flow-service';
+import { SoundEnum } from 'src/app/services/sound/enums/sound-enum';
 import { SoundService } from 'src/app/services/sound/sound-affect-service';
 import { ItemService } from 'src/app/services/item-management/item-service';
-import { CartOrder } from 'src/app/Item/card-order';
 
 @Component({
   selector: 'app-cart',
@@ -18,13 +20,11 @@ import { CartOrder } from 'src/app/Item/card-order';
 export class BillPage extends AppPage<BillWidgetController> {
 
   private readonly itemService: ItemService;
-  private readonly appFlowService: AppFlowService;
 
-  constructor(_appFlowService: AppFlowService, _itemService: ItemService, _widgetController: BillWidgetController, _soundService: SoundService) {
-    super(_widgetController, _soundService)
+  constructor(appFlowService: AppFlowService, itemService: ItemService, widgetController: BillWidgetController, soundService: SoundService) {
+    super(appFlowService, widgetController, soundService)
 
-    this.itemService = _itemService;
-    this.appFlowService = _appFlowService;
+    this.itemService = itemService;
   }
 
   protected override onInit(): void { }
@@ -46,6 +46,7 @@ export class BillPage extends AppPage<BillWidgetController> {
   public async increment(name: string | undefined) : Promise<void> {
     if(name == undefined) {
       this.widgetController.presentErrorAlert();
+      await this.soundService.playSound(SoundEnum.error);
       return;
     }
     
@@ -56,42 +57,52 @@ export class BillPage extends AppPage<BillWidgetController> {
     else {
       this.appFlowService.addToCart(name);
     }
+
+    await this.soundService.playSound(SoundEnum.click);
   }
 
   public async decrement(name: string | undefined) : Promise<void> {
     if(name == undefined) {
       this.widgetController.presentErrorAlert();
+      await this.soundService.playSound(SoundEnum.error);
       return;
     }
     
-    if(this.appFlowService.getCount(name) == 0) {
-      await this.widgetController.presentNoDishToast();
-    }
-    else {
-      this.appFlowService.removeFromCart(name);
+    this.appFlowService.removeFromCart(name);
+    await this.soundService.playSound(SoundEnum.click);
+    
+    if(this.appFlowService.isCartEmpty()) {
+      await this.widgetController.getEmptyResult();
+      await this.soundService.playSound(SoundEnum.message);
+      await this.editOrder();
     }
   }
 
   public async removeItem(name: string | undefined) : Promise<void> {
     if(name == undefined) {
       this.widgetController.presentErrorAlert();
+      await this.soundService.playSound(SoundEnum.error);
       return;
     }
     
-    if(this.appFlowService.getCount(name) == 0) {
-      await this.widgetController.presentNoDishToast();
-    }
-    else {
-      this.appFlowService.removeFromCart(name);
+    this.appFlowService.removeAllFromCart(name);
+    await this.soundService.playSound(SoundEnum.click);
+
+    if(this.appFlowService.isCartEmpty()) {
+      await this.widgetController.getEmptyResult();
+      await this.soundService.playSound(SoundEnum.message);
+      await this.editOrder();
     }
   }
 
   public async editOrder() : Promise<void> {
     await this.appFlowService.editOrder();
+    await this.soundService.playSound(SoundEnum.click);
   }
 
   public async completeOrder() : Promise<void> {
     await this.appFlowService.completeOrder();
+    await this.soundService.playSound(SoundEnum.click);
   }
 
   protected override viewDidLeave(): void { }

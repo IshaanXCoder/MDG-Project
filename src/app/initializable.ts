@@ -1,14 +1,14 @@
 export abstract class Initilaiziable {
-    private isInitialised: boolean = false;
-    IsInitialised() : boolean {
-        return this.isInitialised;
+  private isInitialised: boolean = false;
+  IsInitialised() : boolean {
+    return this.isInitialised;
+  }
+  
+  protected initialise(): void {
+    if(this.isInitialised) {
+      return;
     }
   
-    protected initialise(): void {
-        if(this.isInitialised) {
-            return;
-        }
-  
-        this.isInitialised = true;
-    }
+    this.isInitialised = true;
+  }
 }

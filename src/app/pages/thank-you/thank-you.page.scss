@@ -1,21 +1,57 @@
-.thank-you-container {
-  text-align: center;
-  padding: 20px;
+:host {
+  --ion-background-color: #f4f4f4;
+  --ion-text-color: #333;
+  --ion-toolbar-background: #340B02;
+  --ion-toolbar-color: #fff;
 }
 
+/* 1. Top bar color where "Thank You" is written */
+ion-toolbar {
+  background-color: #340B02; /* Dark red background */
+  --color: white; /* Ensure the text remains visible */
+}
+
+/* 2. Background color for the whole page */
+ion-content {
+  --background: #F4BD7E; /* Light orange background */
+  padding-bottom: 60px; /* Add space for the button at the bottom */
+}
+
+/* 3. Centering the thank you container */
+.thank-you-container {
+  text-align: center;
+  padding: 10px;
+}
+
+/* 3.1 Styling for the thank you image */
 .thank-you-image {
-  width: 20%;
+  width: 30%; /* Adjust the width if needed */
   height: auto;
   margin-bottom: 20px;
 }
 
+/* Styling for the card */
 ion-card {
   margin: 20px auto;
   max-width: 400px;
+  --background: #340B02; /* Light orange background */
 }
 
+/* Styling for the token number */
 .token-number {
   font-size: 18px;
   font-weight: bold;
-  color: #4CAF50;
+  color: #4CAF50; /* Green text */
+}
+
+/* 4. Fix the new order button to the right and bottom */
+.new-order-button {
+  position: fixed;
+  bottom: 20px; /* Distance from the bottom */
+  right: 20px; /* Distance from the right */
+  color: white;
+  font-weight: bold;
+  border-radius: 8px;
+  padding: 10px 20px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Shadow for emphasis */
 }

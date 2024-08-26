@@ -1,19 +1,63 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-grid>
-      <ion-row>
-        <ion-col class="main-title ion-padding">
-          <div>
-            <ion-title>Place Your Order!</ion-title>
+<ion-menu side="end" contentId="main-content">
+  <ion-header>
+    <ion-toolbar>
+      <ion-title>Menu Content</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content [fullscreen]="true">
+    <div *ngIf="isCartEmpty() else elseBlock">
+      <div class="ion-text-center ion-padding">
+        <ion-title style="color:#340B02">No items in cart</ion-title>
+      </div>
+    </div>
+    <ng-template #elseBlock>
+      <ion-grid>
+        <ion-row justify-content-center>
+          <ion-col class="cart-content">
+            <ion-list style="background-color: #340B02; border-radius: 20px; margin-bottom: 20px;" class="ion-padding">
+              <ion-item *ngFor="let item of getCart()" lines="none" class="cart-item">
+                <ion-thumbnail slot="start" class="cart-thumbnail">
+                  <img class="myIMG" [src]="item.Item().ImageSrc()" />
+                </ion-thumbnail>
+                <ion-label class="myTXT">
+                  <h3 style="color: white">{{ item.Name() }}</h3>
+                  <p class="myTXT">Count: {{ item.Count() }}</p>
+                  <p class="myTXT">Total: ₹{{ item.TotalCost() }}</p>
+                </ion-label>
+              </ion-item>
+            </ion-list>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ng-template>
+  </ion-content>
+</ion-menu>
+
+<div class="ion page" id="main-content">
+  <ion-header>
+    <ion-toolbar>
+      <ion-grid>
+        <ion-row>
+          <ion-col class="main-title ion-padding">
+            <div>
+              <ion-title>Place Your Order!</ion-title>
+            </div>
+          </ion-col>
+          <div >
+            <ion-col size="5%" class="ion-padding-end">
+              <ion-buttons>
+                <ion-menu-button style="font-size: 32px;" (click)="playClickSound()">
+                  <ion-icon name="cart"></ion-icon>
+                </ion-menu-button>
+              </ion-buttons>
+            </ion-col>
           </div>
-        </ion-col>
-        <ion-col size="5%" class="ion-padding-end">
-          <ion-button color="danger">Cart</ion-button>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-  </ion-toolbar>
-</ion-header>
+        </ion-row>
+      </ion-grid>
+    </ion-toolbar>
+  </ion-header>
+</div>
+
 
 <ion-content>
   <div class="ion-padding segment-background">
@@ -55,29 +99,48 @@
       <ion-col size="6" size-md="4" size-lg="3" *ngFor="let dish of DisplayDishes()">
         <ion-card>
           <img [src]="dish.ImageSrc()" />
-          <ion-card-content>
+          <ion-card-content class="item-data">
             <ion-grid>
               <ion-row>
                 <ion-col>
-                  <div class="recording-title-container">
-                    <ion-card-title class="recording-title">{{ dish.Name() }}</ion-card-title>
+                  <div class="card-title-container">
+                    <ion-card-title class="card-title">{{ dish.Name() }}</ion-card-title>
                   </div>
-                 
                 </ion-col>
-                <ion-col>
-                  <span class="dot"></span>
+                <ion-col class="ion-text-end ion-padding-end">
+                  <div>
+                    <ion-card-title class="card-price">(₹{{ dish.Cost() }})</ion-card-title>
+                  </div>
                 </ion-col>
-               
               </ion-row>
               <ion-row>
+                <ion-col class="ion-text-start ion-padding">
+                  <div *ngIf="dish.IsVeg(); else elseBlock">
+                    <span class="dot" color="green"></span>
+                  </div>
+                  <ng-template #elseBlock>
+                    <span class="dot" color="red"></span>
+                  </ng-template>
+                </ion-col>       
                 <ion-col size="auto" class="ion-text-end">
-                  <ion-label>₹{{ dish.Cost() }}</ion-label>
-                </ion-col>
-                <ion-col size="5" hi>
-                  <div class="quantity-controls">
-                    <ion-button (click)="decrement(dish.Name())" fill="outline">-</ion-button>
-                    <ion-label class="myLabl">{{ getCount(dish.Name())|| 0 }}</ion-label>
-                    <ion-button (click)="increment(dish.Name())" fill="outline">+</ion-button>
+                  <div>
+                    <ion-grid>
+                      <ion-row>
+                        <ion-col size="auto">
+                          <ion-button color="dark" shape="round" fill="clear" (click)="decrement(dish.Name())">
+                            <ion-icon slot="icon-only" name="remove-circle-outline"></ion-icon>
+                          </ion-button>
+                        </ion-col>
+                        <ion-col style="padding-top: 13px;">
+                          <ion-title style="padding: 0; margin: 0;">{{ getCount(dish.Name())|| 0 }}</ion-title>
+                        </ion-col>
+                        <ion-col size="auto">
+                          <ion-button color="dark" shape="round" fill="clear" (click)="increment(dish.Name())">
+                            <ion-icon slot="icon-only" name="add-circle-outline"></ion-icon>
+                          </ion-button>
+                        </ion-col>
+                      </ion-row>
+                    </ion-grid>
                   </div>
                 </ion-col>
               </ion-row>
@@ -95,11 +158,11 @@
       <ion-row>
         <ion-col size="auto" class="ion-text-start">
           <div class="total-container">
-            <ion-title>Total: {{ getTotal() }}</ion-title>
+            <ion-title>Total: ₹{{ getTotal() }}</ion-title>
           </div>
         </ion-col>
         <ion-col class="ion-text-end">
-          <ion-button color="danger">Check Out</ion-button>
+          <ion-button color="danger" (click)="finaliseOrder()">Check Out</ion-button>
         </ion-col>
       </ion-row>
     </ion-grid>

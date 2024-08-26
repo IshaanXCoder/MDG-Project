@@ -11,7 +11,6 @@ import { IInitializableController } from "../interfaces/I-Iniililizable-controll
 
 import { AppAlert } from "./app_alerts/app-alert";
 import { ToastAlert } from "./toasts/toast-alert";
-import { ConfirmActionSheet } from "./confirm_sheets/confirm-sheet";
 import { AlertComponentOptions } from "./app_alerts/alert-component-options";
 
 @Injectable()
@@ -151,37 +150,6 @@ export abstract class CustomWidgetController extends Initilaiziable implements I
         await alert.present();
         
         const { role } = await alert.onDidDismiss();
-        return role;
-      }
-    }
-
-    return undefined;
-  }
-
-  protected async presentSheet(component: BaseInteractionComponent) : Promise<string | undefined> {
-    if(this.isDisplaying) {
-      return undefined;
-    }
-
-    if(component != undefined) {
-      const casted = component as ConfirmActionSheet;
-      if(casted == undefined) {
-        return;
-      }
-
-      const buttons = casted.GetButtons();
-      const options = casted.ComponentOptions();
-      if(buttons != undefined && options != undefined) {
-        const sheet = await this.actionSheetController.create({
-          header: options.Header(),
-          subHeader: options.SubHeader(),
-  
-          buttons: buttons
-        });
-  
-        await sheet.present();
-  
-        const { role } = await sheet.onWillDismiss();
         return role;
       }
     }

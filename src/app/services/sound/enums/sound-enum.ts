@@ -2,5 +2,6 @@ export enum SoundEnum {
   error = 'error',
   click = 'click',
   
-  successfullCheckout = 'success'
+  success = 'success',
+  message = 'message'
 }

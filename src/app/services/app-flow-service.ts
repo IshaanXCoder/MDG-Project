@@ -1,14 +1,16 @@
 import { Router } from "@angular/router";
 import { Injectable, NgZone } from "@angular/core";
 
+import { SoundService } from "./sound/sound-affect-service";
 import { ItemService } from "./item-management/item-service";
 
 import { PageEnum } from "../enums/page-enum";
 
 import { Initilaiziable } from "../initializable";
-import { CartOrder } from "../Item/card-order";
+
 import { Cart } from "../Item/cart";
-import { FoodItem } from "../Item/item";
+import { CartOrder } from "../Item/card-order";
+import { SoundEnum } from "./sound/enums/sound-enum";
 
 @Injectable()
 export class AppFlowService extends Initilaiziable  {
@@ -16,16 +18,19 @@ export class AppFlowService extends Initilaiziable  {
   private readonly ngZone: NgZone;
     
   private readonly itemService : ItemService;
+  private readonly soundService : SoundService;
 
   private readonly cart: Cart;
   private currentPage: PageEnum;
 
-  constructor(_router: Router, _ngZone: NgZone, _itemService: ItemService) {
+  constructor(router: Router, ngZone: NgZone, itemService: ItemService, soundService: SoundService) {
     super();
 
-    this.router =_router;
-    this.ngZone = _ngZone;
-    this.itemService = _itemService;
+    this.router = router;
+    this.ngZone = ngZone;
+
+    this.itemService = itemService;
+    this.soundService = soundService;
 
     this.cart = new Cart(this.itemService);
     this.currentPage = PageEnum.splashscreen;
@@ -39,6 +44,7 @@ export class AppFlowService extends Initilaiziable  {
     if(this.itemService.IsInitialised())
       this.initialise();
 
+    await this.soundService.initialiseSoundAffects();
     this.navigate(PageEnum.order);
   }
 
@@ -48,6 +54,14 @@ export class AppFlowService extends Initilaiziable  {
 
   public getTotal() : number {
     return this.cart.getTotal();
+  }
+
+  public getCart() : CartOrder[] {
+    return this.cart.getOrders();
+  }
+
+  public isCartEmpty() : boolean {
+    return this.cart.getOrders().length == 0;
   }
 
   public getCount(name: string): number {
@@ -64,10 +78,6 @@ export class AppFlowService extends Initilaiziable  {
 
   public removeAllFromCart(item: string): void {
     this.cart.removeAllFromCart(item);
-  }
-
-  public getCart() : CartOrder[] {
-    return this.cart.getOrders();
   }
 
   public async newOrder() : Promise<void> {

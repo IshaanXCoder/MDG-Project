@@ -4,10 +4,12 @@ import { AppPage } from '../app-page';
 
 import { FoodItem } from 'src/app/Item/item';
 import { FoodType } from 'src/app/enums/food-type';
+import { CartOrder } from 'src/app/Item/card-order';
 
 import { OrderWidgetController } from './widgets/order-widget-controller';
 
 import { AppFlowService } from 'src/app/services/app-flow-service';
+import { SoundEnum } from 'src/app/services/sound/enums/sound-enum';
 import { SoundService } from 'src/app/services/sound/sound-affect-service';
 import { ItemService } from 'src/app/services/item-management/item-service';
 
@@ -32,7 +34,6 @@ enum FilterFoodType {
 export class OrderPage extends AppPage<OrderWidgetController> {
   
   private readonly itemService: ItemService;
-  private readonly appFlowService: AppFlowService;
 
   private filteredDishes: FoodItem[] = []; 
 
@@ -43,11 +44,10 @@ export class OrderPage extends AppPage<OrderWidgetController> {
 
   public selectedCategory: FilterFoodType = FilterFoodType.meal;
 
-  constructor(_appFlowService: AppFlowService, _itemService: ItemService, _widgetController: OrderWidgetController, _soundService: SoundService) {
-    super(_widgetController, _soundService);
+  constructor(appFlowService: AppFlowService, itemService: ItemService, widgetController: OrderWidgetController, soundService: SoundService) {
+    super(appFlowService, widgetController, soundService);
 
-    this.itemService = _itemService;
-    this.appFlowService = _appFlowService;
+    this.itemService = itemService;
   }
 
   protected override onInit(): void { }
@@ -59,12 +59,24 @@ export class OrderPage extends AppPage<OrderWidgetController> {
 
   protected override async viewDidEnter() : Promise<void> { }
 
+  public getCart() : CartOrder[] {
+    return this.appFlowService.getCart();
+  }
+
   public getCount(name: string) : number {
     return this.appFlowService.getCount(name);
   }
 
   public getTotal() : number {
     return this.appFlowService.getTotal();
+  }
+
+  public isCartEmpty() : boolean {
+    return this.appFlowService.isCartEmpty();
+  }
+
+  public playClickSound() : void {
+    this.soundService.playSound(SoundEnum.click);
   }
 
   public async filterDishes(category: string | undefined) : Promise<void> {
@@ -88,20 +100,25 @@ export class OrderPage extends AppPage<OrderWidgetController> {
         this.filteredDishes.push(value);
       });
     }
+
+    await this.soundService.playSound(SoundEnum.click);
   }
 
   public async increment(name: string | undefined) : Promise<void> {
     if(name == undefined) {
       this.widgetController.presentErrorAlert();
+      await this.soundService.playSound(SoundEnum.error);
       return;
     }
     
     this.appFlowService.addToCart(name);
+    await this.soundService.playSound(SoundEnum.click);
   }
 
   public async decrement(name: string | undefined) : Promise<void> {
     if(name == undefined) {
       this.widgetController.presentErrorAlert();
+      await this.soundService.playSound(SoundEnum.error);
       return;
     }
     
@@ -110,30 +127,23 @@ export class OrderPage extends AppPage<OrderWidgetController> {
     }
     else {
       this.appFlowService.removeFromCart(name);
+      await this.soundService.playSound(SoundEnum.click);
     }
   }
 
-  public async removeItem(name: string | undefined) : Promise<void> {
-    if(name == undefined) {
-      this.widgetController.presentErrorAlert();
-      return;
-    }
-    
-    if(this.appFlowService.getCount(name) == 0) {
-      await this.widgetController.presentNoDishToast();
-    }
-    else {
-      this.appFlowService.removeAllFromCart(name);
-    }
-  }
-  
   public handleInput(event: any) : void {
     const query = event.target.value.toLowerCase();
     this.displayDishes = this.filteredDishes.filter((d) => d.Name().toLowerCase().indexOf(query) > -1);
   }
 
   public async finaliseOrder() : Promise<void> {
-    
+    if(this.appFlowService.isCartEmpty()) {
+      this.widgetController.presentEmptyCartToast();
+      await this.soundService.playSound(SoundEnum.message);
+      return;
+    } 
+
+    await this.soundService.playSound(SoundEnum.click);
     await this.appFlowService.finaliseOrder();
   }
 

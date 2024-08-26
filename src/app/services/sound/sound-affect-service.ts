@@ -4,8 +4,6 @@ import { NativeAudio } from '@capacitor-community/native-audio'
 import { SoundEnum } from "./enums/sound-enum";
 import { Initilaiziable } from "src/app/initializable";
 
-
-
 @Injectable()
 export class SoundService extends Initilaiziable {
   constructor() {

@@ -14,10 +14,12 @@
       </ion-card-header>
       <ion-card-content>
         <div class="token-number">
-          <p>Token Number: <strong>{{ getCode() }}</strong></p>
+          <ion-title>{{ Code() }}</ion-title>
         </div>
       </ion-card-content>
     </ion-card>
   </div>
-  <ion-button (click)="newOrder()">New Order</ion-button> 
+  <div class="ion-text-end ion-padding">
+    <ion-button color="success" (click)="newOrder()">New Order</ion-button> 
+  </div>
 </ion-content>

@@ -1,51 +1,54 @@
 <ion-header [translucent]="true">
-  <ion-toolbar color="light">
-    <ion-title>My Cart</ion-title>
+  <ion-toolbar >
+    <ion-title>MY CART</ion-title>
     <ion-buttons slot="end">
-      <ion-button size="small" fill="outline" (click)="editOrder()" class="back-shopping-btn">
+      <ion-button size="small" fill="outline" (click)="editOrder()" style="color: white; background-color: #C54C31;" class="back-shopping-btn">
         Back to Shopping
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true" style="background: #e5e5e5;">
-  <ion-grid>
-    <ion-row justify-content-center>
-      <ion-col size="12" size-md="8" size-lg="7" class="cart-content">
-        <ion-list>
-          <ion-item *ngFor="let item of getCart()" lines="none" class="cart-item">
-            <ion-thumbnail slot="start" class="cart-thumbnail">
-              <img [src]="item.Item().ImageSrc()" />
-            </ion-thumbnail>
-            <ion-label>
-              <h3>{{ item.Name() }}</h3>
-              <p>Price: ₹{{ item.Item().Cost() }}</p>
-              <p>Total: ₹{{ item.TotalCost() }}</p>
-            </ion-label>
-            <ion-buttons slot="end">
-              <ion-button color="medium" (click)="decrement(item.Name())" shape="round">
-                <ion-icon name="remove-outline"></ion-icon>
+<ion-content [fullscreen]="true">
+    <ion-grid>
+      <ion-row justify-content-center>
+        <ion-col size="12" size-md="8" size-lg="7" class="cart-content">
+          <ion-list style="background-color: #340B02; border-radius: 20px;" class="ion-padding">
+            <ion-item *ngFor="let item of getCart()" lines="none" class="cart-item">
+              <ion-thumbnail slot="start" class="cart-thumbnail">
+                <img class="myIMG" [src]="item.Item().ImageSrc()" />
+              </ion-thumbnail>
+              <ion-label class="myTXT">
+                <h3>{{ item.Name() }}</h3>
+                <p class="myTXT">Price: ₹{{ item.Item().Cost() }}</p>
+                <p class="myTXT">Total: ₹{{ item.TotalCost() }}</p>
+              </ion-label>
+              <ion-buttons slot="end">
+                <ion-button color="medium" (click)="decrement(item.Name())" shape="round">
+                  <ion-icon name="remove-outline"></ion-icon>
+                </ion-button>
+                <ion-label class="ion-padding">{{ item.Count() }}</ion-label>
+                <ion-button color="medium" (click)="increment(item.Name())" shape="round">
+                  <ion-icon name="add-outline"></ion-icon>
+                </ion-button>
+              </ion-buttons>
+              <ion-button color="danger" fill="clear" (click)="removeItem(item.Name())">
+                <ion-icon name="close-outline"></ion-icon>
               </ion-button>
-              <ion-label>{{ item.Count() }}</ion-label>
-              <ion-button color="medium" (click)="increment(item.Name())" shape="round">
-                <ion-icon name="add-outline"></ion-icon>
-              </ion-button>
-            </ion-buttons>
-            <ion-button color="danger" fill="clear" (click)="removeItem(item.Name())">
-              <ion-icon name="close-outline"></ion-icon>
-            </ion-button>
-          </ion-item>
-        </ion-list>
-      </ion-col>
-    </ion-row>
-
-    <ion-row justify-content-center class="subtotal">
-      <ion-col size="12" size-md="8" size-lg="7" class="text-end">
-        <ion-button expand="full" color="primary" class="checkout-btn myBTN" (click)="completeOrder()">
-          Checkout  ₹({{ getTotal()}})
-        </ion-button>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+            </ion-item>
+          </ion-list>
+        </ion-col>
+      </ion-row>
+  
+      <ion-row class="subtotal">
+        <ion-col size="12" size-md="8" size-lg="7" class="subtotal-content">
+          <ion-label class="total-amount">
+            TOTAL: ₹{{ getTotal() }}
+          </ion-label>
+          <ion-button expand="full" color="#781D09" style="color: white; background-color: #C54C31;" (click)="completeOrder()">
+            Checkout
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
 </ion-content>

@@ -199,17 +199,16 @@ ion-button[shape=circle] {
   background-color: #c54c31;
 }
 
-/* Center content horizontally */
+
 .cart-content {
   padding: 16px;
-  margin: 0 auto; /* Center the content horizontally */
-  max-width: 600px; /* Reduced width of the container */
-  flex: 1; /* Allow content to grow and take available space */
+  margin: 0 auto; 
+  max-width: 600px; 
+  flex: 1; 
 }
 
-/* Full-width white container with fixed button and label */
 .subtotal {
-  position: fixed; /* Fix it to the bottom */
+  position: fixed; 
   bottom: 0;
   left: 0;
   padding: 16px;
@@ -218,21 +217,19 @@ ion-button[shape=circle] {
   box-shadow: 0px -4px 8px rgba(0, 0, 0, 0.1);
   border-radius: 12px;
   display: flex;
-  flex-direction: column; /* Align items vertically */
-  align-items: flex-end; /* Align items to the end (right) */
-  width: 100%; /* Full width of the viewport */
-  max-width: none; /* No max-width constraint */
+  flex-direction: column; 
+  align-items: flex-end; 
+  width: 100%; 
+  max-width: none; 
 }
 
-/* Subtotal Content Styles */
 .subtotal-content {
   display: flex;
-  flex-direction: column; /* Stack TOTAL label and button vertically */
-  align-items: flex-end; /* Align items to the end (right) */
-  width: 100%; /* Full width of the container */
+  flex-direction: column; 
+  align-items: flex-end; 
+  width: 100%; 
 }
 
-/* Thumbnail Styles */
 .cart-thumbnail {
   --border-radius: 8px;
   margin-right: 16px;

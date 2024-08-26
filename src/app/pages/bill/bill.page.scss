@@ -1,20 +1,10 @@
-$color1: #FFDED7;
-$color2: #E9745B;
-$color3: #C54C31;
-$color4: #781D09;
-$color5: #340B02;
-
-
 :host {
   --ion-background-color: #F4BD7E;
 
   --ion-text-color: #781D09;
   --ion-toolbar-background: #340B02;
-
 }
 
-
-/* General Styles */
 ion-header {
   --background: #FFF;
   --color: #333;
@@ -37,17 +27,15 @@ ion-content {
   flex-direction: column;
 }
 
-/* Center content horizontally */
 .cart-content {
   padding: 16px;
-  margin: 0 auto; /* Center the content horizontally */
-  max-width: 600px; /* Reduced width of the container */
-  flex: 1; /* Allow content to grow and take available space */
+  margin: 0 auto; 
+  max-width: 600px; 
+  flex: 1; 
 }
 
-/* Full-width white container with fixed button and label */
 .subtotal {
-  position: fixed; /* Fix it to the bottom */
+  position: fixed; 
   bottom: 0;
   left: 0;
   padding: 16px;
@@ -56,30 +44,27 @@ ion-content {
   box-shadow: 0px -4px 8px rgba(0, 0, 0, 0.1);
   border-radius: 12px;
   display: flex;
-  flex-direction: column; /* Align items vertically */
-  align-items: flex-end; /* Align items to the end (right) */
-  width: 100%; /* Full width of the viewport */
-  max-width: none; /* No max-width constraint */
+  flex-direction: column; 
+  align-items: flex-end;
+  width: 100%; 
+  max-width: none; 
 }
 
-/* Subtotal Content Styles */
 .subtotal-content {
   display: flex;
-  flex-direction: column; /* Stack TOTAL label and button vertically */
-  align-items: flex-end; /* Align items to the end (right) */
-  width: 100%; /* Full width of the container */
+  flex-direction: column; 
+  align-items: flex-end; 
+  width: 100%; 
 }
 
-/* Total Amount Label */
 .total-amount {
-  margin-bottom: 8px; /* Space between label and button */
+  margin-bottom: 8px;
   font-size: 18px;
 
   color: white;
   font-weight: bold;
 }
 
-/* Cart Item Styles */
 ion-item {
   --background: linear-gradient(to right, rgba(255, 255, 255, 0.9), rgba(240, 240, 240, 0.8));
   padding: 16px;
@@ -88,18 +73,14 @@ ion-item {
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
   display: flex;
   align-items: center;
-}
 
-/* Reduce the width of item containers */
-ion-item {
-  --padding-start: 0; /* Remove padding on start */
-  --padding-end: 0; /* Remove padding on end */
-  --padding-top: 8px; /* Reduce padding on top */
-  --padding-bottom: 8px; /* Reduce padding on bottom */
+  --padding-start: 0; 
+  --padding-end: 0;
+  --padding-top: 8px; 
+  --padding-bottom: 8px;
   --border-radius: 8px;
 }
 
-/* Thumbnail Styles */
 .cart-thumbnail {
   --border-radius: 8px;
   margin-right: 16px;
@@ -114,7 +95,6 @@ ion-label p {
   margin: 4px 0;
 }
 
-/* Button Styles */
 ion-button {
   box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
@@ -130,12 +110,11 @@ ion-button {
 }
 
 .checkout-btn {
-  background-color: #C54C31; /* Updated color for visibility */
+  background-color: #C54C31; 
   color: #fffdfd;
-  max-width: 150px; /* Adjust width as needed */
+  max-width: 150px; 
 }
 
-/* Medium and Danger Buttons */
 ion-button[color="medium"] {
   background-color: #FF9800;
   color: #fff;

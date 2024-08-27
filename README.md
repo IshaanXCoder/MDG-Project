@@ -37,3 +37,6 @@ Feauture | Description
 - [Ishaan Kesarwani](https://github.com/IshaanXCoder)
 - [Asutosh Maharana](https://github.com/asutosh29)
 
+## Steps to run the code👨🏻‍💻
+
+
